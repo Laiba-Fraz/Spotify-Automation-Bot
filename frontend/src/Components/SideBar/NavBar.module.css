@@ -1,0 +1,150 @@
+.NavBar {
+  width: 100%;
+  height: auto;
+}
+
+.inactive svg,
+.taskinactive svg,
+.taskinactive p,
+.tasks svg,
+.tasksinactive svg,
+.tasksinactive p,
+.inactive p,
+.inactivegetstarted p {
+  transition: color 0.25s;
+  color: var(--nav-link);
+  height: 16px;
+  width: auto;
+}
+
+.inactive,
+.taskinactive,
+.tasks,
+.tasksinactive,
+.inactivegetstarted {
+  width: 100%;
+  display: block;
+  height: 36px;
+  padding: 8px 12px 8px 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--nav-link);
+  transition: color 0.2s ease-in-out;
+}
+
+.tasks {
+  justify-content: space-between !important;
+}
+
+.tasksinactive {
+  padding: 8px 7px 8px 20px;
+}
+
+.inactivegetstarted,
+.activegetstarted {
+  padding: 8px 16px;
+  height: 46px;
+}
+.activetasks,
+.activegetstarted,
+.active,
+.tasksactive {
+  transition: background-color 0.25s;
+  background-color: var(--nav-active-link-bg);
+}
+
+.activegetstarted p,
+.taskactive p,
+.taskactive svg,
+.active p,
+.active svg,
+.tasksactive p,
+.tasksactive svg,
+.activetasks svg,
+.activetasks p {
+  color: #6f9dff;
+}
+
+.inactivegetstarted p {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.tasksinactive:hover svg,
+.tasksinactive:hover p,
+.taskinactive:hover svg,
+.taskinactive:hover p,
+.inactive:hover svg,
+.inactive:hover p,
+.inactivegetstarted:hover p,
+.tasksbtn:hover svg,
+.tasksbtn:hover p {
+  color: #6f9dff;
+}
+
+.active,
+.activetasks,
+.taskactive {
+  border-left: 3px solid #6f9dff !important;
+  padding: 8px 12px 8px 12px !important;
+}
+
+.tasksactive {
+  border-left: 3px solid #6f9dff;
+  padding: 8px 7px 8px 18px;
+}
+
+.tasksdropdownCont {
+  width: 100%;
+  height: auto;
+  background-color: transparent;
+}
+
+.taskinactive {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  height: 36px;
+  padding: 8px 12px 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--nav-link);
+  transition: color 0.2s ease-in-out;
+}
+
+.taskslinks {
+  width: 100%;
+  height: auto;
+}
+
+.tasksactiveparent {
+  background-color: var(--nav-active-link-bg) !important;
+}
+
+.tasks {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.tasksNamecontainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tasksactive {
+  gap: 9px;
+}
+
+.howToUse p {
+  font-size: 16px;
+}

@@ -1,0 +1,60 @@
+/* .table {
+    width: 100%;
+    margin: 9px;
+    border-spacing: 0;
+    border-radius: 8px;
+    margin: 0;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px 8px;
+    border: none;
+    text-align: left;
+  } */
+  
+  /* Column width adjustments */
+  
+  
+  /* Border radius for the first row */
+  /* .table tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+  }
+  .table tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+  } */
+  
+  /* Header row background */
+  /* .headingrow {
+    background-color: #252832;
+  } */
+  
+  /* Top border for table headers */
+  /* .table th {
+    border-top: 1px solid #343847;
+  } */
+  
+  /* Left and right borders for the first row */
+  /* .table tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+    border-left: 1px solid #343847;
+  }
+  .table tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+    border-right: 1px solid #343847;
+  }
+  
+  .table tr {
+    border-left: 1px solid #343847;  
+    border-right: 1px solid #343847; 
+  }
+  
+  .table td {
+    border-top: 1px solid #343847; 
+  }
+  .table td:first-child{
+    border-left: 1px solid #343847;
+  }
+  .table td:last-child{
+    border-right: 1px solid #343847;
+  } */

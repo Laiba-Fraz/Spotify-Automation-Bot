@@ -1,0 +1,128 @@
+.botsPageTopBar {
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  height: auto;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  box-shadow: rgba(0, 25, 90, 0.1) 0px 0px 1.4rem 0px,
+    rgba(0, 27, 91, 0.1) 0px 0rem 0.4rem 0px;
+  background-color: var(--topBanner-back-clr);
+}
+
+.logo {
+  width: auto;
+  height: 100%;
+  gap: 16px;
+  padding-left: 16px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo img {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+.logo h5 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 650;
+  font-family: Inter, sans-serif;
+  color: var(--nav-link);
+  transition: color 0.25s ease-in-out;
+}
+
+.btnContainer {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.botPageTopBarInnerContainer {
+  max-width: 100%;
+  box-shadow: rgba(0, 25, 90, 0.1) 0px 0px 1.4rem 0px,
+    rgba(0, 27, 91, 0.1) 0px 0rem 0.4rem 0px;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 8px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.BotSection {
+  width: 100%;
+  height: auto;
+  padding: 0px 50px 40px;
+}
+
+.BotsmainSection {
+  max-width: 1112px;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 17px;
+}
+
+.BotsmainSection > div:first-child a {
+  padding-left: 10px;
+}
+
+.BotMainContentConatiner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.BotMainContent {
+  max-width: 885px;
+  width: 100%;
+  height: auto;
+  padding: 0 0 0 30px;
+}
+/* .BotMainContentSidebar {
+    min-width: 220px;
+    max-width: 2px;
+    width: 100%;
+    height: 300px;
+    background-color: black;
+  } */
+
+@media only screen and (max-width: 1024px) {
+  .botsPageTopBar {
+    display: none;
+  }
+
+  .BotSection {
+    padding: 48px 32px 16px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .BotSection {
+    padding: 35px 16px 16px;
+  }
+  .BotMainContent {
+    max-width: 100%;
+    width: 100%;
+  }
+  .BotMainContentSidebar {
+    display: none;
+  }
+}

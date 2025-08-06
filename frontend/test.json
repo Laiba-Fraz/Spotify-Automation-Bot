@@ -1,0 +1,528 @@
+"inputs": {
+    "type": "multiple",
+    "inputs": [
+      {
+        "type": "one",
+        "name": "Following Automation Type",
+        "inputs":[
+          {
+          "type":"instagrmFollowerBotAcountWise",
+          "Accounts":[],
+          "ActualInputs": [
+            {
+              "name": "Follow from Notification Suggestions",
+              "type": "toggleWithKeywords",
+              "description": "Automatically follows users from notification suggestions by analyzing their profiles and matching predefined keywords, ensuring targeted and relevant engagement.",
+              "input": true,
+              "mutualFriendsCount": 1,
+              "minMutualFriendsValue": 1,
+              "maxFollowsPerHour": 2,
+              "minFollowsPerHour": 1,
+              "minFollowsDaily": 1,
+              "maxFollowsDaily": 2,
+              "maxSleepTime": 0,
+              "minSleepTime": 0,
+              "positiveKeywords": [],
+              "negativeKeywords": []
+            },
+            {
+              "name": "Follow from Profile Followers List",
+              "type": "toggleUrlAndKeyword",
+              "description": "The bot will follow users from the provided profile's followers list.",
+              "input": false,
+              "url": "",
+              "mutualFriendsCount": 1,
+              "minMutualFriendsValue": 1,
+              "maxFollowsPerHour": 2,
+              "minFollowsPerHour": 1,
+              "minFollowsDaily": 1,
+              "maxFollowsDaily": 2,
+              "maxSleepTime": 0,
+              "minSleepTime": 0,
+              "positiveKeywords": [],
+              "negativeKeywords": []
+            },
+            {
+              "name": "Follow from Profile Posts",
+              "type": "toggleUrlAndKeyword",
+              "description": "The bot will traverse through posts of the provided profile URL and follow users who liked or commented on them.",
+              "input": false,
+              "url": "",
+              "mutualFriendsCount": 1,
+              "minMutualFriendsValue": 1,
+              "maxFollowsPerHour": 2,
+              "minFollowsPerHour": 1,
+              "minFollowsDaily": 1,
+              "maxFollowsDaily": 2,
+              "maxSleepTime": 0,
+              "minSleepTime": 0,
+              "positiveKeywords": [],
+              "negativeKeywords": []
+            },
+            {
+              "name": "Unfollow Non-Followers",
+              "type": "toggleAndUnFollowInputs",
+              "description": "The bot will go through the following list of each profile, identify users who do not follow you back, and unfollow them.",
+              "input": false,
+              "maxUnFollowsPerHour": 2,
+              "minUnFollowsPerHour": 1,
+              "minUnFollowsDaily": 1,
+              "maxUnFollowsDaily": 2,
+              "maxSleepTime": 0,
+              "minSleepTime": 0,
+              "usersToExcludeList": [],
+              "typeOfUnfollowing": "Default"
+            },
+            {
+              "name": "Accept All Follow Requests",
+              "type": "toggleAndGap",
+              "description": "The bot will accept all follow requests by temporarily making the profile public and then reverting it to private.",
+              "input": false,
+              "maxSleepTime": 0,
+              "minSleepTime": 0
+            }
+        ]
+          }
+        ]
+      }
+    ]
+  }
+
+
+
+
+
+  data type one:
+  [
+      {
+        "type": "one",
+        "name": "Following Automation Type",
+        "inputs": [
+          {
+            "name": "Follow from Notification Suggestions",
+            "type": "toggleWithKeywords",
+            "description": "Automatically follows users from notification suggestions by analyzing their profiles and matching predefined keywords, ensuring targeted and relevant engagement.",
+            "input": true,
+            "mutualFriendsCount": 1,
+            "minMutualFriendsValue": 1,
+            "maxFollowsPerHour": 2,
+            "minFollowsPerHour": 1,
+            "minFollowsDaily": 1,
+            "maxFollowsDaily": 2,
+            "maxSleepTime": 0,
+            "minSleepTime": 0,
+            "positiveKeywords": [],
+            "negativeKeywords": []
+          },
+          {
+            "name": "Follow from Profile Followers List",
+            "type": "toggleUrlAndKeyword",
+            "description": "The bot will follow users from the provided profile's followers list.",
+            "input": false,
+            "url": "",
+            "mutualFriendsCount": 1,
+            "minMutualFriendsValue": 1,
+            "maxFollowsPerHour": 2,
+            "minFollowsPerHour": 1,
+            "minFollowsDaily": 1,
+            "maxFollowsDaily": 2,
+            "maxSleepTime": 0,
+            "minSleepTime": 0,
+            "positiveKeywords": [],
+            "negativeKeywords": []
+          },
+          {
+            "name": "Follow from Profile Posts",
+            "type": "toggleUrlAndKeyword",
+            "description": "The bot will traverse through posts of the provided profile URL and follow users who liked or commented on them.",
+            "input": false,
+            "url": "",
+            "mutualFriendsCount": 1,
+            "minMutualFriendsValue": 1,
+            "maxFollowsPerHour": 2,
+            "minFollowsPerHour": 1,
+            "minFollowsDaily": 1,
+            "maxFollowsDaily": 2,
+            "maxSleepTime": 0,
+            "minSleepTime": 0,
+            "positiveKeywords": [],
+            "negativeKeywords": []
+          },
+          {
+            "name": "Unfollow Non-Followers",
+            "type": "toggleAndUnFollowInputs",
+            "description": "The bot will go through the following list of each profile, identify users who do not follow you back, and unfollow them.",
+            "input": false,
+            "maxUnFollowsPerHour": 2,
+            "minUnFollowsPerHour": 1,
+            "minUnFollowsDaily": 1,
+            "maxUnFollowsDaily": 2,
+            "maxSleepTime": 0,
+            "minSleepTime": 0,
+            "usersToExcludeList": [],
+            "typeOfUnfollowing": "Default"
+          },
+          {
+            "name": "Accept All Follow Requests",
+            "type": "toggleAndGap",
+            "description": "The bot will accept all follow requests by temporarily making the profile public and then reverting it to private.",
+            "input": false,
+            "maxSleepTime": 0,
+            "minSleepTime": 0
+          }
+        ]
+      },
+      {
+        "name": "Multiple Account Automation",
+        "type": "multiple",
+        "inputs": [
+          {
+            "type": "toggleKeywordsAndGap",
+            "name": "Multiple Account Automation",
+            "description": "Bot will perform automation on All accounts looged in on device.",
+            "input": false,
+            "usernamesToExclude": []
+          }
+        ]
+      }
+    ]
+
+  data type two:
+  [
+      {
+        "name": "Scrolling",
+        "type": "multiple",
+        "inputs": [
+          {
+            "type": "toggle",
+            "name": "Endless Downward Scroll",
+            "description": "Scroll down continuously to explore new posts without interruption.",
+            "input": true
+          },
+          {
+            "type": "toggle",
+            "name": "Scroll and Pause",
+            "description": "Pause on posts for easy reading before continuing to scroll.",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Reverse Scroll",
+            "description": "Scroll back up slightly to revisit a post or image you passed.",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Micro-scroll Up and Down on a Post",
+            "description": "Scroll within a post to read comments while keeping the original content in view by going back and forth.",
+            "input": false
+          }
+        ]
+      },
+      {
+        "type": "multiple",
+        "name": "Upvote or Downvote a Random Post",
+        "inputs": [
+          {
+            "type": "toggle",
+            "name": "Quick Upvote",
+            "description": "Upvote a post instantly if it catches your interest or makes you laugh.",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Downvote",
+            "description": "Downvote posts if they’re spammy, misleading, or harm the discussion.",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Upvote After Reading",
+            "description": "Upvote after reading a post if you find it well-written, thoughtful, or informative by opening it reading comments.",
+            "input": false
+          }
+        ]
+      },
+      {
+        "type": "multiple",
+        "name": "Comment on a Random Post",
+        "inputs": [
+          {
+            "type": "toggle",
+            "name": "Quick Comment",
+            "description": "Leaves a short, casual comment like “Haha” by analyzing other users comments and responses.",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Detailed Response",
+            "description": "Generates a thoughtful, longer comment based on other users’ responses.",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Reply to Comment",
+            "description": "Responds directly to a comment by referencing both the original post and the comment.",
+            "input": false
+          }
+        ]
+      },
+      {
+        "name": "User Interaction Speed",
+        "inputs": [
+          {
+            "type": "toggle",
+            "name": "Normal User",
+            "input": false
+          },
+          {
+            "type": "toggle",
+            "name": "Extensive User",
+            "input": true
+          }
+        ],
+        "type": "one"
+      }
+    ]
+
+  data type three:
+    [{
+        "type": "one",
+        "name": "Following Automation Type",
+        "inputs": [
+            {
+                "type": "instagrmFollowerBotAcountWise",
+                "Accounts": [
+                    {
+                        "username": "account_1",
+                        "inputs": [
+                            {
+                                "name": "Follow from Notification Suggestions",
+                                "type": "toggleWithKeywords",
+                                "description": "Automatically follows users from notification suggestions by analyzing their profiles and matching predefined keywords, ensuring targeted and relevant engagement.",
+                                "input": false,
+                                "mutualFriendsCount": 1,
+                                "minMutualFriendsValue": 1,
+                                "maxFollowsPerHour": 2,
+                                "minFollowsPerHour": 1,
+                                "minFollowsDaily": 1,
+                                "maxFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "positiveKeywords": [],
+                                "negativeKeywords": []
+                            },
+                            {
+                                "name": "Follow from Profile Followers List",
+                                "type": "toggleUrlAndKeyword",
+                                "description": "The bot will follow users from the provided profile's followers list.",
+                                "input": true,
+                                "url": "",
+                                "mutualFriendsCount": 1,
+                                "minMutualFriendsValue": 1,
+                                "maxFollowsPerHour": 2,
+                                "minFollowsPerHour": 1,
+                                "minFollowsDaily": 1,
+                                "maxFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "positiveKeywords": [],
+                                "negativeKeywords": []
+                            },
+                            {
+                                "name": "Follow from Profile Posts",
+                                "type": "toggleUrlAndKeyword",
+                                "description": "The bot will traverse through posts of the provided profile URL and follow users who liked or commented on them.",
+                                "input": false,
+                                "url": "",
+                                "mutualFriendsCount": 1,
+                                "minMutualFriendsValue": 1,
+                                "maxFollowsPerHour": 2,
+                                "minFollowsPerHour": 1,
+                                "minFollowsDaily": 1,
+                                "maxFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "positiveKeywords": [],
+                                "negativeKeywords": []
+                            },
+                            {
+                                "name": "Unfollow Non-Followers",
+                                "type": "toggleAndUnFollowInputs",
+                                "description": "The bot will go through the following list of each profile, identify users who do not follow you back, and unfollow them.",
+                                "input": false,
+                                "maxUnFollowsPerHour": 2,
+                                "minUnFollowsPerHour": 1,
+                                "minUnFollowsDaily": 1,
+                                "maxUnFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "usersToExcludeList": [],
+                                "typeOfUnfollowing": "Default"
+                            },
+                            {
+                                "name": "Accept All Follow Requests",
+                                "type": "toggleAndGap",
+                                "description": "The bot will accept all follow requests by temporarily making the profile public and then reverting it to private.",
+                                "input": false,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0
+                            }
+                        ]
+                    },
+                    {
+                        "username": "account_2",
+                        "inputs": [
+                            {
+                                "name": "Follow from Notification Suggestions",
+                                "type": "toggleWithKeywords",
+                                "description": "Automatically follows users from notification suggestions by analyzing their profiles and matching predefined keywords, ensuring targeted and relevant engagement.",
+                                "input": false,
+                                "mutualFriendsCount": 1,
+                                "minMutualFriendsValue": 1,
+                                "maxFollowsPerHour": 2,
+                                "minFollowsPerHour": 1,
+                                "minFollowsDaily": 1,
+                                "maxFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "positiveKeywords": [],
+                                "negativeKeywords": []
+                            },
+                            {
+                                "name": "Follow from Profile Followers List",
+                                "type": "toggleUrlAndKeyword",
+                                "description": "The bot will follow users from the provided profile's followers list.",
+                                "input": false,
+                                "url": "",
+                                "mutualFriendsCount": 1,
+                                "minMutualFriendsValue": 1,
+                                "maxFollowsPerHour": 2,
+                                "minFollowsPerHour": 1,
+                                "minFollowsDaily": 1,
+                                "maxFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "positiveKeywords": [],
+                                "negativeKeywords": []
+                            },
+                            {
+                                "name": "Follow from Profile Posts",
+                                "type": "toggleUrlAndKeyword",
+                                "description": "The bot will traverse through posts of the provided profile URL and follow users who liked or commented on them.",
+                                "input": false,
+                                "url": "",
+                                "mutualFriendsCount": 1,
+                                "minMutualFriendsValue": 1,
+                                "maxFollowsPerHour": 2,
+                                "minFollowsPerHour": 1,
+                                "minFollowsDaily": 1,
+                                "maxFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "positiveKeywords": [],
+                                "negativeKeywords": []
+                            },
+                            {
+                                "name": "Unfollow Non-Followers",
+                                "type": "toggleAndUnFollowInputs",
+                                "description": "The bot will go through the following list of each profile, identify users who do not follow you back, and unfollow them.",
+                                "input": false,
+                                "maxUnFollowsPerHour": 2,
+                                "minUnFollowsPerHour": 1,
+                                "minUnFollowsDaily": 1,
+                                "maxUnFollowsDaily": 2,
+                                "maxSleepTime": 0,
+                                "minSleepTime": 0,
+                                "usersToExcludeList": [],
+                                "typeOfUnfollowing": "Default"
+                            },
+                            {
+                                "name": "Accept All Follow Requests",
+                                "type": "toggleAndGap",
+                                "description": "The bot will accept all follow requests by temporarily making the profile public and then reverting it to private.",
+                                "input": true,
+                                "maxSleepTime": 123,
+                                "minSleepTime": 62
+                            }
+                        ]
+                    }
+                ],
+                "ActualInputs": [
+                    {
+                        "name": "Follow from Notification Suggestions",
+                        "type": "toggleWithKeywords",
+                        "description": "Automatically follows users from notification suggestions by analyzing their profiles and matching predefined keywords, ensuring targeted and relevant engagement.",
+                        "input": true,
+                        "mutualFriendsCount": 1,
+                        "minMutualFriendsValue": 1,
+                        "maxFollowsPerHour": 2,
+                        "minFollowsPerHour": 1,
+                        "minFollowsDaily": 1,
+                        "maxFollowsDaily": 2,
+                        "maxSleepTime": 0,
+                        "minSleepTime": 0,
+                        "positiveKeywords": [],
+                        "negativeKeywords": []
+                    },
+                    {
+                        "name": "Follow from Profile Followers List",
+                        "type": "toggleUrlAndKeyword",
+                        "description": "The bot will follow users from the provided profile's followers list.",
+                        "input": false,
+                        "url": "",
+                        "mutualFriendsCount": 1,
+                        "minMutualFriendsValue": 1,
+                        "maxFollowsPerHour": 2,
+                        "minFollowsPerHour": 1,
+                        "minFollowsDaily": 1,
+                        "maxFollowsDaily": 2,
+                        "maxSleepTime": 0,
+                        "minSleepTime": 0,
+                        "positiveKeywords": [],
+                        "negativeKeywords": []
+                    },
+                    {
+                        "name": "Follow from Profile Posts",
+                        "type": "toggleUrlAndKeyword",
+                        "description": "The bot will traverse through posts of the provided profile URL and follow users who liked or commented on them.",
+                        "input": false,
+                        "url": "",
+                        "mutualFriendsCount": 1,
+                        "minMutualFriendsValue": 1,
+                        "maxFollowsPerHour": 2,
+                        "minFollowsPerHour": 1,
+                        "minFollowsDaily": 1,
+                        "maxFollowsDaily": 2,
+                        "maxSleepTime": 0,
+                        "minSleepTime": 0,
+                        "positiveKeywords": [],
+                        "negativeKeywords": []
+                    },
+                    {
+                        "name": "Unfollow Non-Followers",
+                        "type": "toggleAndUnFollowInputs",
+                        "description": "The bot will go through the following list of each profile, identify users who do not follow you back, and unfollow them.",
+                        "input": false,
+                        "maxUnFollowsPerHour": 2,
+                        "minUnFollowsPerHour": 1,
+                        "minUnFollowsDaily": 1,
+                        "maxUnFollowsDaily": 2,
+                        "maxSleepTime": 0,
+                        "minSleepTime": 0,
+                        "usersToExcludeList": [],
+                        "typeOfUnfollowing": "Default"
+                    },
+                    {
+                        "name": "Accept All Follow Requests",
+                        "type": "toggleAndGap",
+                        "description": "The bot will accept all follow requests by temporarily making the profile public and then reverting it to private.",
+                        "input": false,
+                        "maxSleepTime": 0,
+                        "minSleepTime": 0
+                    }
+                ]
+            }
+        ]
+    }
+  ]

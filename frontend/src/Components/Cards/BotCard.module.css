@@ -1,0 +1,126 @@
+.botCardMain {
+  height: 170px;
+  width: 100%;
+  border: 1px solid var(--sign_out_dropdown_brdr_clr);
+  background-color: var(--sign_out_dropdown_bg_clr);
+  border-radius: 16px;
+  padding: 16px;
+  transition: background-color 0.25s ease-out, border-color 0.25s ease-out,
+    color 0.25s ease-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-decoration: none;
+}
+
+.botCardMain:hover {
+  background-color: var(--tags-bg-clr);
+}
+.botCardMainUnderDevelopment{
+  height: 170px;
+  width: 100%;
+  border: 1px solid var(--sign_out_dropdown_brdr_clr);
+  background-color: var(--sign_out_dropdown_bg_clr);
+  border-radius: 16px;
+  padding: 16px;
+  transition: background-color 0.25s ease-out, border-color 0.25s ease-out,
+    color 0.25s ease-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-decoration: none;
+  cursor:context-menu;
+}
+
+.botcardHeader {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12.8px;
+}
+
+.botcardHeader > img {
+  height: 100%;
+  width: auto;
+  border-radius: 50%;
+  /* border: 1px solid #414758; */
+}
+
+.BotName {
+  height: 100%;
+  overflow: hidden;
+}
+
+.BotName > h2 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--nav-link);
+  transition: color 0.25s ease-out;
+}
+
+.BotName > p {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: #6c7590;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  width: 100%;
+}
+
+.botcardDescription {
+  width: 100%;
+  height: 48px;
+}
+
+.botcardDescription > p {
+  color: var(--steps-p-color) !important;
+  transition: color 0.25s ease-in-out;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin: 0px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.botcardFooter {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.botcardFooter > p {
+  width: auto;
+  font-size: 16px;
+  line-height: 28px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--steps-p-color) !important;
+  transition: color 0.25s ease-in-out;
+}
+
+.botcardFooter a {
+  height: 26px !important;
+}
+
+.botcardFooter button {
+  height: 28px;
+}

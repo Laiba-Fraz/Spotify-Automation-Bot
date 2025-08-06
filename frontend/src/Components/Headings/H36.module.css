@@ -1,0 +1,8 @@
+.heading {
+  font-family: Inter, sans-serif;
+  line-height: 44px;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--nav-link);
+  transition: color 0.25s ease-in-out;
+}

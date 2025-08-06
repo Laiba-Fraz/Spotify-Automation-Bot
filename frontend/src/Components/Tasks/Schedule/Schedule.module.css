@@ -1,0 +1,360 @@
+.main {
+  max-width: 850px;
+  width: 100%;
+  height: auto;
+  padding-bottom: 80px;
+}
+
+.main > button:last-child {
+  color: #23a64a;
+  width: max-content;
+}
+
+.inputsContainer {
+  width: 100%;
+  height: auto;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.Inputbutton {
+  display: flex;
+  width: 100%;
+  height: 45.85px;
+  background-color: #252832;
+  border: solid 1px #414758;
+  border-radius: 6px;
+  transition: background-color 120ms ease-in-out;
+  cursor: pointer;
+}
+
+.opened {
+  border-radius: 6px 6px 0 0;
+}
+
+.Inputbutton:hover {
+  background-color: #2d313e;
+}
+
+.chevronCont {
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 8px;
+  height: 100%;
+}
+
+.Inputbutton p,
+.InputName {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 500;
+  color: #f3f4fa;
+  line-height: 24px;
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+.InputName {
+  padding: 0px 0 4px;
+}
+
+.inputsBtnContainer {
+  width: 100%;
+  height: auto;
+}
+
+.hiddendiv {
+  background-color: #252832;
+  border: solid 1px #414758;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  height: auto;
+  width: 100%;
+  padding: 0px 23px 0px 33px;
+}
+
+.descriptionContainer {
+  padding: 0px 0px 0px 0px;
+  /* width: 100%; */
+  height: auto;
+}
+
+.descriptionContainer p,
+.inputCont p,
+.tableP,
+.subDescription,
+.finalSubDescription {
+  width: 100%;
+  margin: 0;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: justify;
+}
+
+
+
+.finalSubDescription {
+  margin: 14px 0 20px;
+}
+
+.tableP {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tableP svg {
+  height: 16px;
+  /* cursor: pointer; */
+  /* color: #6f9dff; */
+  /* transition: color 0.15s ease-in-out; */
+}
+.tableP button {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin: 0 10px;
+}
+/* .tableP svg:hover{
+  color: #80a9ff;
+} */
+
+.inputCont {
+  padding: 4px 0px 16px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.inputCont p {
+  margin-bottom: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 16px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #575d71;
+  border: 1px solid #575d71;
+  transition: background-color 0.4s, border 0.4s;
+  border-radius: 16px;
+}
+
+.slider:hover {
+  border: 1px solid #414758;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 2px;
+  bottom: 1px;
+  background-color: #1a1b21;
+  transition: transform 0.4s, background-color 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6f9dff;
+  border-color: #6f9dff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(12px);
+}
+
+.hiddenDivInnerMain {
+  width: 100%;
+  height: auto;
+}
+
+.or {
+  width: 100%;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: justify;
+}
+
+.Input,
+.RedInput {
+  min-width: 20px;
+  max-width: 150px;
+  width: 100%;
+  height: 36px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background-color: #101114;
+  border: 1px solid #343847;
+  padding: 0 11px;
+  border-radius: 6px;
+  transition: box-shadow 120ms ease-in, border-color 120ms ease-out,
+    background-color 120ms ease-out;
+}
+
+.Input svg,
+.RedInput svg {
+  color: #8c93a8;
+  cursor: pointer;
+}
+/* .Input input::-webkit-outer-spin-button,
+.Input input::-webkit-inner-spin-button,
+.RedInput input::-webkit-outer-spin-button,
+.RedInput input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.Input input[type="number"],
+.RedInput input[type="number"] {
+  -moz-appearance: textfield;
+} */
+.Input input,
+.RedInput input {
+  width: 100%;
+  background-color: transparent;
+  height: 100%;
+  border: none;
+  outline: 0px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  font-family: Inter, sans-serif;
+  color: #8c93a8;
+}
+.Input input::placeholder,
+.RedInput input::placeholder {
+  font-style: italic;
+  color: #8c93a8;
+}
+
+.Input:hover {
+  background-color: #1a1b21;
+  border-color: #3970d7;
+}
+
+.Input:focus-within {
+  outline: 1px solid #3970d7 !important;
+}
+
+.Input input:-webkit-autofill,
+.RedInput input:-webkit-autofill {
+  background-color: #101114 !important; /* Set the background color you want */
+  color: #8c93a8 !important; /* Force the desired text color */
+  font-size: 14px !important; /* Maintain the desired font size */
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s; /* Prevent flashing of default styles */
+}
+
+.Input input:-webkit-autofill:focus,
+.RedInput input:-webkit-autofill:focus {
+  background-color: #101114 !important; /* Consistent background on focus */
+  color: #8c93a8 !important; /* Ensure the color stays consistent on focus */
+}
+
+.Input input:-webkit-autofill:hover,
+.RedInput input:-webkit-autofill:hover {
+  background-color: #101114 !important; /* Consistent background on hover */
+  color: #8c93a8 !important; /* Consistent text color on hover */
+}
+
+.RedInput {
+  border: 1px solid #ef6045;
+  background-color: #40191b;
+  margin-bottom: 4px;
+}
+
+.warning {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 17px;
+  font-weight: 400;
+  font-size: 12px;
+  color: #ff7157;
+  margin: 0 0 12px;
+}
+
+.label {
+  margin: 0;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.duarationMainConatiner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.durationHandlerContainer {
+  padding: 14px 0;
+}
+
+.inputoutermain {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.durationToggleConatiner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+.Input input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(50%) sepia(1) saturate(300%) hue-rotate(180deg) brightness(0.9)
+    contrast(0.85);
+}
+
+
+.fixedStartTimeHandler{
+  padding: 0;
+  margin-bottom: 10px;
+}
+.fixedStartTimeHandler p{
+  margin-bottom: 10px;
+}

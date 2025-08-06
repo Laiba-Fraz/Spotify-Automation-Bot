@@ -1,0 +1,24 @@
+.form {
+  padding: 24px 0 0;
+  width: 100%;
+  height: auto;
+}
+
+.form label {
+  display: block;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 500;
+  line-height: 20px;
+  font-size: 14px;
+  margin: 0 0 4px;
+}
+
+.form input {
+  margin-bottom: 16px;
+}
+
+.form button{
+    margin: 20px 0;
+}

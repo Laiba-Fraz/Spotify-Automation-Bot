@@ -1,0 +1,448 @@
+.main {
+  max-width: 850px;
+  width: 100%;
+  height: auto;
+  padding-bottom: 80px;
+}
+
+.main > button:last-child {
+  color: #23a64a;
+  width: max-content;
+}
+
+.inputsContainer {
+  width: 100%;
+  height: auto;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.Inputbutton {
+  display: flex;
+  width: 100%;
+  height: 45.85px;
+  background-color: #252832;
+  border: solid 1px #414758;
+  border-radius: 6px;
+  transition: background-color 120ms ease-in-out;
+  cursor: pointer;
+}
+
+.opened {
+  border-radius: 6px 6px 0 0;
+}
+
+.Inputbutton:hover {
+  background-color: #2d313e;
+}
+
+.chevronCont {
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 8px;
+  height: 100%;
+}
+
+.Inputbutton p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 500;
+  color: #f3f4fa;
+  line-height: 24px;
+  font-size: 16px;
+  padding: 10px 0;
+}
+
+.inputsBtnContainer {
+  width: 100%;
+  height: auto;
+}
+
+.hiddendiv {
+  background-color: #252832;
+  border: solid 1px #414758;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  height: auto;
+  width: 100%;
+  padding: 22px 23px 6px 33px;
+}
+
+.descriptionContainer {
+  padding: 0px 0px 0px 0px;
+  width: 100%;
+  height: auto;
+}
+
+.descriptionContainer p,
+.inputCont p,
+.tableP {
+  width: 100%;
+  margin: 0 0 0px;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: justify;
+}
+
+.tableP{
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tableP svg{
+height: 16px;
+/* cursor: pointer; */
+/* color: #6f9dff; */
+/* transition: color 0.15s ease-in-out; */
+}
+.tableP button{
+  width: max-content;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin: 0 10px;
+}
+/* .tableP svg:hover{
+  color: #80a9ff;
+} */
+
+
+.inputCont {
+  padding: 4px 0px 16px 0px;
+  /* display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px; */
+}
+
+.inputCont p {
+  margin-bottom: 0;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 16px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #575d71;
+  border: 1px solid #575d71;
+  transition: background-color 0.4s, border 0.4s;
+  border-radius: 16px;
+}
+
+.slider:hover {
+  border: 1px solid #414758;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 2px;
+  bottom: 1px;
+  background-color: #1a1b21;
+  transition: transform 0.4s, background-color 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6f9dff;
+  border-color: #6f9dff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(12px);
+}
+
+
+.keywordsInputContainer input{
+  margin: 0;
+}
+
+.Inputscontainer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.Inputscontainer > input{
+  margin-bottom: 0 !important;
+}
+
+.toggleContainer{
+  display: flex;
+  justify-content: flex-start ;
+  align-items: center;
+  gap: 8px;
+}
+
+.keywordsContainer {
+  width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: start;
+  margin: 10px 0;
+}
+
+.InputContainer{
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.keyword {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  width: max-content;
+  padding: 0px 5px;
+  margin-bottom: 5px;
+  border-radius: 8px;
+  background-color: #575d71;
+}
+
+
+.keyword p{
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: rgb(243, 244, 250);
+  margin: 0;
+  padding: 0;
+}
+
+.keyword button{
+  border: none;
+  background-color: transparent;
+}
+
+.keyword button svg{
+  width: 10px;
+  height: auto;
+  cursor: pointer;
+  color: rgb(243, 244, 250);
+}
+
+.analysisInputConatainer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.discordInviteContainer{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.minMaxInputsContainer{
+  width: fit-content;
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+/* .accountContainer{
+  width: 100%;
+  height: auto;
+  padding: 20px 25px;
+  margin-bottom: 20px;
+  border: 1px solid #414758;
+  border-radius: 6px;
+} */
+
+/* .accountUsername{
+  font-size: 22px;
+  color: #f3f4fa;
+  font-family: Inter, sans-serif;
+  margin-bottom: 15px;
+} */
+
+.addbuttonInputContainer{
+  width: 60%;
+}
+
+.addbuttonInputContainer p{
+  margin-bottom: 5px;
+}
+
+.setInputsHeading{
+  font-size: 18px !important;
+  color: #f3f4fa !important;
+  font-family: Inter, sans-serif !important;
+  margin-bottom: 8px !important;
+}
+
+.accountHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* margin-bottom: 15px; */
+}
+
+.accountUsername {
+  font-size: 22px;
+  color: #f3f4fa;
+  font-family: Inter, sans-serif;
+  margin-bottom: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.accountUsername::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background-color: #6f9dff;
+  border-radius: 2px;
+}
+
+.removeAccountBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid #414758;
+  color: #f3f4fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.removeAccountBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ff6b6b;
+  border-color: #ff6b6b;
+}
+
+.accountContainer {
+  width: 100%;
+  height: auto;
+  padding: 15px 15px;
+  /* margin-bottom: 20px; */
+  border: 1px solid #414758;
+  border-radius: 8px;
+  background-color: #252832;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.accountContainer:hover {
+  border-color: #3970d7;
+  /* box-shadow: 0 4px 12px rgba(111, 157, 255, 0.15); */
+}
+
+.accountHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* margin-bottom: 15px; */
+  /* padding-bottom: 10px; */
+}
+
+
+.accountActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.accordionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid #414758;
+  color: #f3f4fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.accordionButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: #6f9dff;
+}
+
+.accordionButton.opened {
+  background-color: #6f9dff;
+  border-color: #6f9dff;
+  color: #1a1b21;
+}
+
+.accordionContent {
+  padding: 25px 10px 0px;
+  border-top: 1px solid #414758;
+  margin-top: 15px;
+  /* animation: fadeIn 0.3s ease-in-out; */
+}
+
+
+.inputWrapper {
+  padding: 12px 12px 0;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background-color: rgba(65, 71, 88, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.inputWrapper:hover {
+  background-color: rgba(65, 71, 88, 0.5);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

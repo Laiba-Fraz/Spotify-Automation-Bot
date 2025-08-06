@@ -1,0 +1,81 @@
+.main {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+
+.main h1 {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.main h1 svg {
+  color: #6e758a;
+  cursor: pointer;
+}
+
+.main button {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.main button svg {
+  color: inherit;
+  height: 14px;
+  width: auto;
+}
+.iconContainer {
+  position: relative;
+  display: inline-block;
+  height: 26px;
+}
+
+.iconContainer .Info {
+  min-width: 320px;
+  width: 100%;
+  background-color: #1a1b21;
+  color: #fff;
+  text-align: center;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #414758;
+  position: absolute;
+  z-index: 100;
+  top: 102%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  transition: opacity 0.3s;
+}
+
+.iconContainer .Info::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #414758 transparent;
+}
+
+.Info p {
+  color: #f3f4fa;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.Info p a {
+  color: #6f9dff;
+}

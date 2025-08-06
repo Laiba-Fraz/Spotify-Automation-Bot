@@ -1,0 +1,47 @@
+/* Hide the default checkbox */
+.rectCheckbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Style the custom rectangular checkmark */
+.rectCheckbox .checkmark {
+  position: relative;
+  width: 16px; /* Custom width for the rectangle */
+  height: 16px; /* Custom height for the rectangle */
+  background-color: #1a1b21;
+  border: 2px solid #343847; /* Border around the checkbox */
+  display: inline-block;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add styles for the custom tick (checkmark) when checked */
+.rectCheckbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #5990ff; /* Background when checkbox is checked */
+  border-color: #5990ff; /* Border color when checked */
+}
+
+/* Create the tick (checkmark) */
+.rectCheckbox .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Display the tick when checkbox is checked */
+.rectCheckbox input[type="checkbox"]:checked + .checkmark::after {
+  display: block;
+}
+
+/* Custom tick (checkmark) style */
+.rectCheckbox .checkmark::after {
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid #1A1B21;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg); /* Rotate to form the checkmark */
+}

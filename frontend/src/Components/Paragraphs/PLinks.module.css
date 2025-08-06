@@ -1,0 +1,17 @@
+.paragraph {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  color: #8c93a8;
+  line-height: 16px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.paragraph a {
+  text-decoration: none;
+  color: #6f9dff;
+  font-weight: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}

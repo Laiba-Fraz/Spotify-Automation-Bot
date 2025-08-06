@@ -1,0 +1,22 @@
+.herobannerHeading {
+  font-size: 80px;
+  line-height: 88px;
+  font-weight: 750;
+  font-family: Inter, sans-serif;
+  color: #242836;
+  margin: 0;
+}
+
+@media only screen and (max-width: 1024px) {
+  .herobannerHeading {
+    font-size: 72px;
+    line-height: 80px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .herobannerHeading {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}

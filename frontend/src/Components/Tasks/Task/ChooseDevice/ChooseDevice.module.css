@@ -1,0 +1,73 @@
+.devicesMain {
+  width: 100%;
+  height: auto;
+}
+
+.devicesMain > button {
+  margin-top: 20px;
+  color: #23a64a;
+  width: max-content;
+}
+
+.pages {
+  padding: 0px 12px;
+  font-size: 14px;
+  height: 36px;
+}
+
+.headingcheckbox {
+  padding: 12px;
+  width: 2%;
+}
+.devicesheadingmain {
+  width: 25%;
+}
+.modelheadingmain {
+  width: 25%;
+}
+.uniqueidheadingmain {
+  width: 15%;
+}
+.statusheadingmain {
+  width: 15%;
+}
+.dateheadingmain {
+  width: 23%;
+}
+
+.tr td p {
+  margin: 0;
+  color: #f3f4fa;
+}
+.tr {
+  transition: 0.05s;
+}
+.tr:hover {
+  background-color: #2d313e;
+}
+
+.active {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #00531e;
+  color: #6ccd7c;
+}
+
+.inactive {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #531e00;
+  color: #cc7c6c;
+}
+
+.main {
+  max-width: 800px;
+  width: 100%;
+  height: auto;
+  margin: 24px 0 0 0;
+}
+
+.main > button:last-child {
+  color: #23a64a;
+  width: max-content;
+}

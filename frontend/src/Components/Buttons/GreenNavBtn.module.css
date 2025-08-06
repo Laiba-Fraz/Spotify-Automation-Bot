@@ -1,0 +1,34 @@
+.Btn {
+  width: auto;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  padding: 0 12px;
+  background-color: #3bb358;
+  color: #2a2d39;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  border-color: #3bb358;
+  transition: background-color 120ms;
+}
+
+.Btn:hover{
+    background-color: #23a64a;
+}
+
+.Btn span {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.Btn svg {
+  height: 16px;
+  stroke-width: 2;
+}

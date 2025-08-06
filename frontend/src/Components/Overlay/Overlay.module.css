@@ -1,0 +1,10 @@
+.backdrop {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4000;
+  width: auto;
+  height: auto;
+  background: transparent;
+}

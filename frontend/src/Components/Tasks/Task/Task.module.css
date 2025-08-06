@@ -1,0 +1,22 @@
+.Task {
+  width: 100%;
+  height: auto;
+}
+
+.main {
+  width: 100%;
+  height: auto;
+}
+
+.main > div:first-child a {
+  padding: 24px 30px 16px 10px;
+}
+
+.NavbarContainer {
+  padding: 0 30px;
+}
+
+.menuComponentContainer{
+  width: 100%;
+  padding: 0 30px;
+}

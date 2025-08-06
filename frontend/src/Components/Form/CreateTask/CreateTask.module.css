@@ -1,0 +1,86 @@
+.CreateTaskMain {
+    border-radius: 12px;
+    width: 562px;
+    height: auto;
+    box-shadow: 4.7px 9.4px 14.2px -1px rgba(8, 8, 10, 0.41),
+      2.2px 4.3px 6.5px -0.7px rgba(8, 8, 10, 0.32),
+      1px 2px 3px -0.3px rgba(8, 8, 10, 0.22),
+      0.3px 0.5px 0.8px 0px rgba(8, 8, 10, 0.13);
+    margin-top: 0px;
+    align-self: center;
+    z-index: 10;
+    background-color: #1a1b21;
+    border: 1px solid #414758;
+    box-sizing: content-box;
+    overflow: hidden;
+  }
+  
+  .head {
+    width: 100%;
+    padding: 20px 32px;
+    border-bottom: 1px solid #343847;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .head svg {
+    height: 20;
+    width: 20;
+    color: #f3f4fa;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s;
+  }
+  
+  .head svg:hover {
+    background-color: #2d313e;
+  }
+  .head h1 {
+    line-height: 20px;
+  }
+  
+  .Form {
+    width: 100%;
+    height: auto;
+    padding: 20px 32px;
+  }
+  
+  .Form input {
+    color: #f3f4fa;
+    width: 100% !important;
+  }
+  .uniquesName {
+    width: 100%;
+  }
+  .uniquesName p {
+    font-weight: 500;
+    margin: 0 0 4px;
+  }
+  
+  .uniquesName p:nth-child(2) {
+    border-bottom: 1px solid #343847;
+    margin-bottom: 32px;
+  }
+  
+  .footer {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .footer button {
+    max-width: fit-content;
+    margin: 0;
+  }
+
+  .discordInviteContainer{
+    margin-bottom: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-weight: 400;
+    color: rgb(243, 244, 250);
+    line-height: 20px;
+    font-size: 14px;
+  }

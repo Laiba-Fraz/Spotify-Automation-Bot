@@ -1,0 +1,24 @@
+.link {
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  /* cursor:context-menu; */
+}
+
+.link img {
+  max-height: 30px;
+  background-color: transparent;
+  background: none;
+}
+
+.link span {
+  font-family: "Roboto", sans-serif;
+  font-weight: 750;
+  letter-spacing: -1px;
+  font-size: 22px;
+  color: var(--logo-color);
+  text-transform: uppercase;
+  margin-left: 5px;
+  line-height: 1px;
+  transition: color 0.25s;
+}

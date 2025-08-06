@@ -1,0 +1,53 @@
+.Feature {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  justify-items: center;
+  gap: 10px;
+}
+
+.Feature svg {
+  height: 15px;
+  width: 15px;
+  margin-top: 4px;
+  color: #23a64a;
+}
+
+.Feature p {
+  color: #f3f4fa;
+  font-weight: 600;
+}
+
+/* .Feature {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  justify-items: center;
+  gap: 10px ;
+}
+
+.IconContainer {
+  height: 100%;
+  width: auto;
+}
+.IconContainer svg {
+  height: 15px;
+  width: 15px;
+  margin-top: 8px;
+  color: #23a64a;
+}
+
+.FeatureContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.FeatureContent p:nth-child(1) {
+    color: #f3f4fa;
+    font-weight: 600;
+  }
+
+.FeatureContent p:nth-child(2) {
+    margin: 0;
+  } */

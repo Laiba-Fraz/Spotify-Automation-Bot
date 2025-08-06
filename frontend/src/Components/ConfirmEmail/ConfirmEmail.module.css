@@ -1,0 +1,72 @@
+.ConfirmEmail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.ConfirmEmail::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: conic-gradient(
+    rgba(94, 92, 214, 0.99) 0deg,
+    rgba(84, 76, 200, 0.99) 70deg,
+    rgba(70, 60, 180, 0.99) 140deg,
+    rgba(60, 50, 160, 0.99) 210deg,
+    rgba(50, 40, 140, 0.99) 290deg,
+    rgba(40, 30, 120, 0.99) 360deg
+  );
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  transform-origin: center center;
+  transform: translate(0px, 90vh) rotate(0deg);
+}
+
+.main {
+  width: 440px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.main > h1 {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 650;
+  margin: 0 0 24px;
+}
+
+.main > p {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: #f3f4fa;
+  margin-bottom: 20px;
+}
+
+.main svg path {
+  color: #f3f4fa;
+  width: 32px;
+  height: 29.5px;
+}
+
+.Loading > div {
+  margin-top: 12px;
+  border: 4px solid #f3f4fa;
+}
+
+.error > p,
+.success > p {
+  margin-top: 12px;
+  color: #f3f4fa;
+}

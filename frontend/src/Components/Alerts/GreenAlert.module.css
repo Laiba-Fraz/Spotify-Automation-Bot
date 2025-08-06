@@ -1,0 +1,46 @@
+.main {
+  width: auto;
+  border-radius: 8px;
+  border: 1px solid rgb(49, 196, 141);
+  padding: 14px 16px;
+  background-color: rgba(49, 196, 141, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 16px;
+}
+
+.main svg {
+  height: 16px;
+  color: rgb(49, 196, 141);
+}
+
+.main p {
+  color: rgb(49, 196, 141);
+  margin: 0;
+}
+.main svg {
+  color: rgb(49, 196, 141);
+  height: 14px;
+  width: auto;
+  cursor: pointer;
+}
+
+.contentCont {
+  width: auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  background-color: transparent;
+}
+.contentCont > p {
+  margin: 0 !important;
+}
+
+.main > svg {
+  height: 16px;
+  cursor: pointer;
+}

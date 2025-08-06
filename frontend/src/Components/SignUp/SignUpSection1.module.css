@@ -1,0 +1,117 @@
+.SignUpSection1 {
+  background: rgb(37, 40, 50);
+  width: 100%;
+  height: 100%;
+  padding: 188px 24px 24px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.SignUpSection1::before {
+  content: "";
+  position: absolute;
+  width: 100vh;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  background: conic-gradient(
+    rgba(94, 92, 214, 0.99) 0deg,
+    rgba(84, 76, 200, 0.99) 70deg,
+    rgba(70, 60, 180, 0.99) 140deg,
+    rgba(60, 50, 160, 0.99) 210deg,
+    rgba(50, 40, 140, 0.99) 290deg,
+    rgba(40, 30, 120, 0.99) 360deg
+  );
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  transform-origin: center center;
+  transform: translate(calc(100px - 100vh), 0px) rotate(90deg);
+}
+.headings {
+  max-width: max-content;
+  width: 100%;
+  height: auto;
+}
+.mainContainer {
+  width: max-content;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.headingFeatures {
+  width: max-content;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.FeaturesContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.IconsContainer {
+  width: 100%;
+  height: auto;
+}
+
+.IconsContainer p {
+  color: #f3f4fa;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  margin: 0 0 10px;
+}
+
+.Icons {
+  padding: 0 0 8px;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  justify-items: flex-start;
+  gap: 24px;
+}
+
+.Icons img {
+  filter: invert(20%) sepia(15%) saturate(250%) hue-rotate(180deg)
+    brightness(100%) contrast(105%);
+
+  height: auto;
+  width: 80px;
+  opacity: 0.8;
+}
+
+.opratingSystem {
+  width: 100%;
+  height: auto;
+  margin-top: 6px;
+}
+
+.os {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.os span {
+  color: #b2b8cc;
+  font-family: "'Roboto', 'Droid Sans', monospace";
+  font-size: 22px;
+}

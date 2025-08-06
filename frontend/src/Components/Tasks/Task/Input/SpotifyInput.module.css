@@ -1,0 +1,81 @@
+/* .spotifyContainer {
+  width: 100%;
+}
+
+.inputWrapper {
+  margin-bottom: 20px;
+}
+
+.descriptionContainer p {
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.inputCont {
+  width: 100%;
+}
+
+.dynamicListContainer {
+  margin-bottom: 20px;
+}
+
+.dynamicListHeader label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.dynamicListHeader .description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.songsListContainer {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.songInputRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.songInputRow:last-child {
+  margin-bottom: 0;
+}
+
+.removeSongBtn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  min-width: 30px;
+  height: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addSongBtn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.addSongBtn:hover {
+  background: #0056b3;
+}
+
+.removeSongBtn:hover {
+  background: #cc0000;
+} */

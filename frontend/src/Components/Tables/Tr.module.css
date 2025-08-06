@@ -1,0 +1,24 @@
+.tr td p {
+  margin: 0;
+  color: #f3f4fa;
+}
+.tr {
+  transition: 0.05s;
+}
+.tr:hover {
+  background-color: #2d313e;
+}
+
+.active {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #00531e;
+  color: #6ccd7c;
+}
+
+.inactive {
+    padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #531e00;
+  color: #cc7c6c ;
+}

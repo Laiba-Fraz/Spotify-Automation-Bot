@@ -1,0 +1,9 @@
+.svg{
+    transition: all 0.2s ease-in-out;
+    color: #f3f4fa;
+    transform: rotate(0deg);
+}
+
+.upsvg{
+    transform: rotate(180deg);
+}

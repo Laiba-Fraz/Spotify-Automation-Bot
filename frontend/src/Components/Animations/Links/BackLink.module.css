@@ -1,0 +1,35 @@
+.viewallbotsLinkContainer {
+    width: 100%;
+    height: auto;
+  }
+  
+  .viewallbotsLinkContainer a {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .viewallbotsPara {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #6f9dff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    transition: all 0.3s;
+  }
+  
+  .viewallbotsLinkContainer a:hover .viewallbotsPara {
+    color: #80a9ff;
+  }
+  
+  .viewallbotsLinkContainer a svg {
+    color: #6f9dff;
+    margin: 0 4px 0 4px;
+    transition: all 0.3s;
+  }
+  .viewallbotsLinkContainer a:hover svg {
+    color: #80a9ff;
+    margin: 0 8px 0 0px;
+  }
+  

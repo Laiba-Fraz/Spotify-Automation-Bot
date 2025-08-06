@@ -1,0 +1,21 @@
+.heading {
+    font-size: 28px;
+    line-height: 32px;
+    font-weight: 700;
+    color: #f3f4fa;
+    font-family: Inter, sans-serif;
+  }
+  
+  
+  @media only screen and (max-width:1024px){
+      .heading{
+          font-size: 24px;
+      }
+  }
+  
+  @media only screen and (max-width:768px){
+      .heading{
+          font-size: 18px;
+    line-height: 24px;
+      }
+  }

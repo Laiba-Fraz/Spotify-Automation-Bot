@@ -1,0 +1,152 @@
+.Getstarted {
+  width: 100%;
+  height: auto;
+  transition: background-color 0.25s;
+  background-color: var(--body_bg);
+  padding-bottom: 178px;
+}
+
+.GetstartedMain {
+  max-width: 960px;
+  /* max-width: 1100px; */
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.StepsContainer {
+  max-width: 1108px;
+  /* max-width: 1100px; */
+
+  height: auto;
+  background-color: transparent;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.StepsMain {
+  width: 100%;
+  height: auto;
+  padding: 100px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.content {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.descriptionContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.descriptionContainer button {
+  margin: 0;
+  max-width: fit-content;
+}
+
+.imgVideoContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.imgVideoContainer img {
+  width: 100%;
+  height: 100%;
+}
+
+.imgVideoContainer iframe {
+  max-width: 468px;
+  width: 100%;
+  min-height: 293px;
+  max-height: 297px;
+  height: 100%;
+  overflow-clip-margin: content-box !important;
+  overflow: clip !important;
+  border-radius: 12px;
+  border: 1px solid #414758;
+  overflow: hidden;
+}
+
+.descriptionContainer a {
+  text-decoration: none;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 24px;
+  border: 1px solid var(--apify-console-btn-bdr-clr);
+  width: fit-content;
+  height: 44px;
+  border-radius: 12px;
+  background-color: transparent;
+  transition: all 0.25s;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--apify-console-btn-clr);
+}
+
+.greenLink{
+  border: 1px solid #24bd69 !important;
+  color: #24bd69 !important;
+}
+
+.descriptionContainer a:hover {
+  background-color: var(--apify-console-btn-bg-clr);
+}
+
+.descriptionContainer a img {
+  max-width: 20px;
+}
+
+
+.subSteps{
+  padding-left: 12px;
+  margin: 0 0 18px;
+}
+
+.subStepsCont p{
+  margin: 0 0 10px;
+}
+
+.purpleLink{
+  border: 1px solid #5047c1 !important;
+  color: #5047c1 !important;
+  margin-bottom: 100px;
+}
+.telegramLink{
+  border: 1px solid #29b6f6 !important;
+  color: #29b6f6 !important;
+  margin-bottom: 100px;
+}
+
+.stepimages{
+  border: 1px solid #414758;
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
+    .content {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+.DisabledButton {
+  margin: 8px 0 20px;
+  width: 100%;
+  padding: 0px 12px;
+  font-size: 14px;
+  height: 36px;
+  color: #1a1b21;
+  font-weight: 500;
+  /* cursor: pointer; */
+  position: relative;
+  white-space: nowrap;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  cursor: not-allowed !important;
+  background-color: #2d313e !important;
+  border-color: #3f475d !important;
+}

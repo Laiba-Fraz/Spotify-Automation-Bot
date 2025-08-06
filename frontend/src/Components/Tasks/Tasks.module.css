@@ -1,0 +1,126 @@
+.tasks {
+  width: 100%;
+  height: auto;
+}
+
+.main {
+  width: 100%;
+  height: auto;
+  padding: 24px 30px;
+}
+
+.headingcheckbox {
+  padding: 12px;
+  width: 2%;
+}
+
+.TaskName {
+  width: 25%;
+}
+.botName {
+  width: 25%;
+}
+.platform {
+  width: 20%;
+}
+.DateCreated {
+  width: 13%;
+}
+.Status {
+  width: 15%;
+}
+
+.tr td p:first-child {
+  margin: 0;
+  color: #f3f4fa;
+}
+
+.tr td a {
+  text-decoration: none;
+}
+.tr {
+  transition: 0.05s;
+}
+.tr:hover {
+  background-color: #2d313e;
+}
+.taskNameContainer p:first-child,
+.BotNameContainer p:first-child {
+  font-weight: 600;
+  transition: color 0.12s;
+}
+.taskNameContainer p:last-child,
+.BotNameContainer p:last-child {
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 400;
+  color: #8c93a8;
+  margin: 0;
+}
+
+.BotNameContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.BotNameContainer img {
+  /* width: 30px; */
+  aspect-ratio: auto 30 / 30;
+  height: 40px;
+  /* border: solid 1px #414758; */
+  border-radius: 6px;
+}
+
+.tr td a:hover p:first-child {
+  color: #6f9dff;
+}
+
+.active {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #00531e;
+  color: #6ccd7c;
+}
+
+.inactive {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #531e00;
+  color: #cc7c6c;
+}
+
+.scheduled {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background-color: #534b2a;
+  color: #be9e00;
+}
+
+
+
+.errorContainer td {
+  padding: 40px 0 !important;
+  text-align: center;
+  border: none;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+}
+
+.errorContainer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 20px;
+  color: rgb(243, 244, 250);
+  opacity: ain;
+  text-align: center;
+}
+
+
+.platformIcons{
+  height: 22px;
+}

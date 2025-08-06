@@ -1,0 +1,31 @@
+.main {
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #414758;
+  position: fixed;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3000;
+  background-color: #252832;
+  padding: 8px 14px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.main svg {
+  color: #f3f4fa;
+  width: auto;
+  height: 6px;
+  cursor: pointer;
+}
+
+.main h1 {
+  width: max-content;
+  font-size: 13px;
+  /* font-size: 18px; */
+}

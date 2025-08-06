@@ -1,0 +1,33 @@
+.form {
+  padding: 24px 0 0;
+  width: 100%;
+  height: auto;
+}
+/* .form label:nth-child(1){
+  justify-content: space-between;
+} */
+.form label {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-weight: 500;
+  line-height: 20px;
+  font-size: 14px;
+  margin: 0 0 4px;
+  gap: 2px;
+}
+.form label span{
+  color: red;
+}
+.form label a {
+  text-decoration: none;
+  color: #6f9dff;
+  font-weight: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}
+

@@ -1,0 +1,118 @@
+.askingCardMain {
+  width: 100%;
+  border-radius: 12px;
+  position: relative;
+  overflow: clip;
+  height: auto;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid var(--sign_out_dropdown_brdr_clr);
+  overflow: clip;
+  margin: 0 0 40px;
+}
+
+.backEffect {
+  transform: translate(350px, -200px) rotate(310deg);
+  width: 800px;
+  height: 800px;
+  opacity: 0.15;
+  z-index: 1;
+  left: 60%;
+  top: 0px;
+  position: absolute;
+  transform-origin: center center;
+  transform: translate(0px, 0px) rotate(0deg);
+  opacity: 0.3;
+  background: conic-gradient(
+    rgba(94, 92, 214, 0.99) 0deg,
+    rgba(84, 76, 200, 0.99) 70deg,
+    rgba(70, 60, 180, 0.99) 140deg,
+    rgba(60, 50, 160, 0.99) 210deg,
+    rgba(50, 40, 140, 0.99) 290deg,
+    rgba(40, 30, 120, 0.99) 360deg
+  );
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+.askingCardContent {
+  max-width: 700px;
+  width: 100%;
+  height: auto;
+  padding: 24px;
+}
+
+.askingCardContent h4 {
+  width: 100%;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 650;
+  font-family: Inter, sans-serif;
+  color: var(--nav-link);
+  transition: color 0.25s ease-in-out;
+  margin: 0 0 8px;
+}
+
+.askingCardContent p {
+  width: 100%;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  font-family: Inter, sans-serif;
+  color: var(--nav-link);
+  transition: color 0.25s ease-in-out;
+  margin: 0 0 16px;
+}
+
+.btnContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.askingCardMain img {
+  height: 100%;
+  max-width: 420px;
+  align-self: flex-end;
+  z-index: 1;
+}
+
+.btnContainer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.12s ease-out, background-color 0.12s ease-out;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  color: #1a1b21;
+  background-color: #5990ff;
+  border-color: #5990ff;
+  height: 36px;
+  font-size: 14px;
+  padding: 0px 12px;
+  text-decoration: none;
+  font-family: Arial;
+}
+
+.btnContainer a:hover {
+  color: #2a2d39;
+  background-color: #80a9ff;
+  border-color: #80a9ff;
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 1024px) {
+  .askingCardMain img {
+    display: none;
+  }
+}

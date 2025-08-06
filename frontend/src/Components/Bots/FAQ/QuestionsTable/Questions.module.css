@@ -1,0 +1,138 @@
+.QuestionsMainContainer {
+  width: 100%;
+  height: auto;
+}
+.Questionscontainerborders,
+.Questionscontainerborders2 {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #343847;
+  border-radius: 8px 8px 0px 0px;
+  background-color: #252832;
+}
+
+.Questionscontainerborders2 {
+  border-radius: 0px 0px 8px 8px;
+}
+
+.questionsList {
+  width: 100%;
+  height: auto;
+  border-left: 1px solid #343847;
+  border-right: 1px solid #343847;
+  list-style: none;
+}
+
+.question {
+  width: 100%;
+  height: 49px;
+  border-bottom: 1px solid #343847;
+  
+}
+
+.question:last-child{
+    border-bottom: none;
+}
+
+.questionLink {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-decoration: none;
+}
+
+.bluetickContainer {
+  width: 64px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .bluetickContainer svg {
+  color: #6f9dff;
+} */
+
+.questionContainer {
+  width: calc(98% - 64px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.questionContainer h5 {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 650;
+  font-family: Inter, sans-serif;
+  color: #f3f4fa;
+  transition: color 0.3s;
+}
+
+.questionLink:hover .questionContainer h5{
+    color: #6f9dff;
+}
+
+.questionContainer p {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #6c7590;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  font-family: Inter, sans-serif;
+}
+
+
+.loading {
+  width: 100%;
+  height: 124px;
+  position: relative;
+}
+
+.content {
+  background-color: #1e2027;
+  width: 100%;
+  height: 100%;
+}
+
+.loadingEffect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, #2b2e3a 25%, #1c1e28 50%, #2b2e3a 75%);
+  background-size: 200% 100%;
+  animation: diagonal-shimmer 1.5s infinite linear;
+  opacity: 0.8;
+  z-index: 1;
+}
+@keyframes diagonal-shimmer {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0; /* Only move horizontally */
+  }
+}
+
+.noQsContainer{
+  width: 100%;
+  height: auto;
+  padding: 50px 0;
+  text-align: center;
+  color: #f3f4fa;
+  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}

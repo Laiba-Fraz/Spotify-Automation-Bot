@@ -1,0 +1,27 @@
+.keysContainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: transparent;
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+
+.keywords {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--tags-brdr-clr);
+  background-color: var(--tags-bg-clr);
+  color: var(--tags-clr);
+  transition: color 0.25s ease-in-out, background-color 0.25s ease-in-out,
+    border-color 0.25s ease-in-out;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  font-family: Inter, sans-serif;
+}

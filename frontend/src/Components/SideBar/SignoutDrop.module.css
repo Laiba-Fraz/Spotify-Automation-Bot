@@ -1,0 +1,136 @@
+.dropdown {
+  min-width: 239.38px;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  left: 10;
+  top: 96%;
+  pointer-events: auto;
+  z-index: 10001;
+  background-color: var(--sign_out_dropdown_bg_clr);
+  border: solid 1px var(--sign_out_dropdown_brdr_clr);
+  border-radius: 6px;
+  box-shadow: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21),
+    1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21),
+    0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21),
+    0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+}
+
+.dropdown > h1 {
+  padding: 7.5px 20px;
+}
+
+.usernameLink {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+.contentContainer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 7px;
+}
+.contentContainer img {
+  height: 35px;
+  width: auto;
+}
+
+.usernameConatainer {
+  max-width: 120.59px;
+  width: max-content;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.usernameConatainer p {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+  transition: 0.2s ease-in-out;
+}
+
+.usernameConatainer p:nth-child(1) {
+  font-weight: 500;
+}
+.user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3px;
+}
+.user p {
+  width: 88px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+  font-weight: 400;
+  line-height: 17px;
+  font-size: 12px;
+}
+
+.user span {
+  background-color: hsla(18, 55%, 39%, 1);
+  font-size: 12px;
+  line-height: 16px;
+  padding: 2px 4px;
+  border-radius: 6px;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-weight: normal;
+  white-space: nowrap;
+  cursor: default;
+  color: #f3f4fa;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.usernameLink:hover .usernameConatainer p,
+.signoutbtn:hover p,
+.signoutbtn:hover svg {
+  color: #6f9dff;
+}
+
+.usernameLink svg {
+  color: #6f9dff;
+}
+
+.signoutbtn {
+  width: 100%;
+  height: auto;
+  padding: 10px 20px;
+  background-color: transparent;
+  border: none;
+  /* border-top: 1px solid #414758; */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+}
+.signoutbtn svg {
+  color: #f3f4fa;
+  transition: 0.2s ease-in-out;
+  color: var(--nav-link);
+}
+.signoutbtn p {
+  font-weight: 400;
+  transition: 0.2s ease-in-out;
+  color: var(--nav-link);
+}

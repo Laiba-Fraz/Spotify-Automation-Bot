@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  transition: background-color 0.25s;
+  /* transition: color 0.25s; */
+}
+[data-theme="dark"] {
+  --body_bg: #1a1b21;
+  --logo-color: #f2f2f2;
+  --nav-link: #f3f4fa;
+  --nav-border-color: #414758;
+  --nav-active-link-bg: #2a2d39;
+  --username-color: #f3f4fa;
+  --personalAcc-color: #8c93a8;
+  --heading-color: #f3f4fa;
+  --steps-p-color: #b2b8cc;
+  --apify-console-btn-clr: #6f9dff;
+  --apify-console-btn-bdr-clr: #3970d7;
+  --apify-console-btn-bg-clr: #2d313e;
+  --blue-button-border-clr: #5990ff;
+  --blue-button-bg-clr: #5990ff;
+  --blue-button-clr: #1a1b21;
+  --blue-button-hover-border-clr: #80a9ff;
+  --blue-button-hover-bg-clr: #80a9ff;
+  --blue-button-hover-clr: #2a2d39;
+  --sign_out_dropdown_bg_clr: #1e2027;
+  --sign_out_dropdown_brdr_clr: #343847;
+  --storeSearchBar-brdr-clr: #414758;
+  --tags-clr: #f3f4fa;
+  --tags-bg-clr: #252832;
+  --tags-brdr-clr: #343847;
+  --botcard-back-color: #252832;
+  --card-shimmer-effect-color: linear-gradient(
+    45deg,
+    #2b2e3a 25%,
+    #1c1e28 50%,
+    #2b2e3a 75%
+  );
+  --topBanner-back-clr:#252832;
+  --grey-btn-clr:#f3f4fa;
+  --grey-btn-bg-clr:#252832;
+  --grey-btn-brdr-clr:#3f475d;
+  --grey-btn-hvr-brdr-clr:#2d313e;
+  --grey-btn-hvr-bg-clr:#3f475d;
+}
+
+:root {
+  --body_bg: #ffffff;
+  --logo-color: #212322;
+  --nav-link: #242836;
+  --nav-border-color: #d0d5e9;
+  --nav-active-link-bg: #f3f4fa;
+  --username-color: #242836;
+  --personalAcc-color: #6c7590;
+  --heading-color: #242836;
+  --steps-p-color: #3f475d;
+  --apify-console-btn-clr: #1672eb;
+  --apify-console-btn-bdr-clr: #1672eb;
+  --apify-console-btn-bg-clr: #eef0f9;
+  --blue-button-border-clr: #1672eb;
+  --blue-button-bg-clr: #1672eb;
+  --blue-button-clr: #f3f4fa;
+  --blue-button-hover-border-clr: #1672eb;
+  --blue-button-hover-bg-clr: #1672eb;
+  --blue-button-hover-clr: #f3f4fa;
+  --sign_out_dropdown_bg_clr: #ffffff;
+  --sign_out_dropdown_brdr_clr: #d0d5e9;
+  --storeSearchBar-brdr-clr: #d0d5e9;
+  --tags-clr: #252832;
+  --tags-bg-clr: #f8f9fc;
+  --tags-brdr-clr: #e0e3f2;
+  --botcard-back-color: #ffffff;
+  --card-shimmer-effect-color: linear-gradient(
+    45deg,
+    #ffffff 25%,
+    #f2f2f2 50%,
+    #ffffff 75%
+  );
+  --topBanner-back-clr:#ffffff;
+  --topBanner-back-clr:#252832;
+  --grey-btn-clr:#242836;
+  --grey-btn-bg-clr:#eef0f8;
+  --grey-btn-brdr-clr:#d0d5e9;
+  --grey-btn-hvr-brdr-clr:#d0d5e9;
+  --grey-btn-hvr-bg-clr:#eef0f8;
+}
+
+/* color: #2a2d39;
+  background-color: #80a9ff;
+  border-color: #80a9ff;
+  text-decoration: none; */
