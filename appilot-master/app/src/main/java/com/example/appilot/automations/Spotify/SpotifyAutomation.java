@@ -75,7 +75,7 @@ public class SpotifyAutomation {
 
     private SpotifyAutomationScheduler scheduler;  // Declare the scheduler
 
-    private SessionManager sessionManager;  // Declare SessionManager to manage session
+//    private SessionManager sessionManager;  // Declare SessionManager to manage session
 
 
 
@@ -90,7 +90,7 @@ public class SpotifyAutomation {
         this.random = new Random();
         this.helperFunctions = new HelperFunctions(context, taskId, jobId);
         this.spotifyPopUp = new SpotifyPopUp(this.service, this.handler, this.random, this.helperFunctions);
-        this.sessionManager = new SessionManager(context);
+//        this.sessionManager = new SessionManager(context);
 
         // Convert List<Object> to JSONArray for safe parsing
         JSONArray jsonInputs = new JSONArray();
@@ -149,21 +149,12 @@ public class SpotifyAutomation {
 
 
     public void start() {
-        if (sessionManager.hasAuthToken()) {
-            // If session exists, check if the token is expired
-            if (sessionManager.isTokenExpired()) {
-                Log.d(TAG, "Token expired, refreshing...");
-                triggerLogin();  // Refresh or re-login
-            } else {
-                // Token is valid, proceed with automation
-                Log.d(TAG, "Session exists and token is valid, proceeding with automation...");
-                String authToken = sessionManager.getAuthToken();
-                startAutomation();  // Proceed with automation
-            }
+        if (SessionManager.isLoginPageDetected()) {
+            // If login page is detected, send an error message to the server
+            SessionManager.sendErrorMessageToServer("Error: Login page detected. Please log in.");
         } else {
-            // No token exists, show login prompt
-            Log.d(TAG, "No session found, triggering login...");
-            showLoginPrompt();  // Show login prompt or navigate to login screen
+            // If login page is not detected, proceed with automation
+            startAutomation();  // Proceed with automation
         }
     }
 
@@ -171,22 +162,22 @@ public class SpotifyAutomation {
         // Show the user a prompt for logging in
         Toast.makeText(context, "You are logged out. Please log in again.", Toast.LENGTH_LONG).show();
     }
-    private void triggerLogin() {
-        String authToken = realAuthLoginMethod();  // Call the login method to get a real token
-
-        if (authToken != null) {
-            // Assume the token expires in 1 hour for example
-            long expiryTime = System.currentTimeMillis() + 3600000;  // 1 hour expiry
-            sessionManager.saveAuthToken(authToken, expiryTime);  // Save the valid token securely along with expiry time
-            Log.d(TAG, "Token saved successfully, proceeding with automation...");
-            start();  // Proceed with automation after login
-        } else {
-            Log.e(TAG, "Login failed. Cannot proceed with automation.");
-            // Optionally: Show a message to the user
-            Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_LONG).show();
-            // Or navigate the user to the login screen
-        }
-    }
+//    private void triggerLogin() {
+//        String authToken = realAuthLoginMethod();  // Call the login method to get a real token
+//
+//        if (authToken != null) {
+//            // Assume the token expires in 1 hour for example
+//            long expiryTime = System.currentTimeMillis() + 3600000;  // 1 hour expiry
+//            sessionManager.saveAuthToken(authToken, expiryTime);  // Save the valid token securely along with expiry time
+//            Log.d(TAG, "Token saved successfully, proceeding with automation...");
+//            start();  // Proceed with automation after login
+//        } else {
+//            Log.e(TAG, "Login failed. Cannot proceed with automation.");
+//            // Optionally: Show a message to the user
+//            Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_LONG).show();
+//            // Or navigate the user to the login screen
+//        }
+//    }
 
     private String realAuthLoginMethod() {
         // This is where the real authentication with Spotify should happen.
