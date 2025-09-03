@@ -5,7 +5,9 @@ import com.example.appilot.automations.spotify.SessionConfig;
 import static com.example.appilot.utils.HelperFunctions.findNodesByViewId;
 
 import com.example.appilot.automations.spotify.SpotifyAutomationScheduler;  // Import the scheduler class
-
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.OutputStream;
 
 import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
@@ -17,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
+import java.util.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,8 +61,8 @@ public class SpotifyAutomation {
     private StringBuilder songHistory = new StringBuilder(); // StringBuilder to store song names
 
     private static final String TAG = "SpotifyAutomation";
-    private static final String SPOTIFY_PACKAGE = "com.spotify.music";
-    private static final String SPOTIFY_PACKAGE_CLONE= "com.spotify.musid";
+    private static final String SPOTIFY_PACKAGE = "com.spotify.music.clone3";
+    private static final String SPOTIFY_PACKAGE_CLONE = "com.spotify.musid";
     private final Context context;
     private HelperFunctions helperFunctions;
     private MyAccessibilityService service;
@@ -76,8 +79,6 @@ public class SpotifyAutomation {
     private SpotifyAutomationScheduler scheduler;  // Declare the scheduler
 
 //    private SessionManager sessionManager;  // Declare SessionManager to manage session
-
-
 
 
     public SpotifyAutomation(MyAccessibilityService service, String taskId, String jobId, List<Object> inputs) {
@@ -147,6 +148,70 @@ public class SpotifyAutomation {
     }
 
 
+    // Function to extract package IDs from inputs and return as list
+    public List<String> getPackageIdsFromInputs() {
+        List<String> packageIds = new ArrayList<>();
+
+        try {
+            JSONArray jsonInputs = new JSONArray();
+            for (Object obj : inputs) {
+                if (obj instanceof JSONObject) {
+                    jsonInputs.put((JSONObject) obj);
+                }
+            }
+
+            for (int i = 0; i < jsonInputs.length(); i++) {
+                JSONObject groupObj = jsonInputs.getJSONObject(i);
+
+                if (groupObj.has("Set Package Ids")) {
+                    JSONArray packageFields = groupObj.getJSONArray("Set Package Ids");
+
+                    for (int j = 0; j < packageFields.length(); j++) {
+                        JSONObject packageField = packageFields.getJSONObject(j);
+
+                        if (packageField.has("App Package IDs")) {
+                            JSONArray packageArray = packageField.getJSONArray("App Package IDs");
+
+                            for (int k = 0; k < packageArray.length(); k++) {
+                                String packageId = packageArray.getString(k);
+                                packageIds.add(packageId);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing package IDs from inputs", e);
+        }
+
+        return packageIds;
+    }
+
+    // Function to display logs of each package ID
+    private void logPackageIds() {
+        Log.d(TAG, "=== PACKAGE IDS LOGGING START ===");
+
+        List<String> packageIds = getPackageIdsFromInputs();
+
+        if (packageIds.isEmpty()) {
+            Log.d(TAG, "No package IDs found in inputs");
+        } else {
+            Log.d(TAG, "Total package IDs found: " + packageIds.size());
+
+            for (int i = 0; i < packageIds.size(); i++) {
+                Log.d(TAG, "Package ID [" + i + "]: " + packageIds.get(i));
+            }
+        }
+
+        Log.d(TAG, "=== PACKAGE IDS LOGGING END ===");
+    }
+
+    // Temporary start function that only calls the logs function
+    public void startTemp() {
+        Log.d(TAG, "Starting temporary function to log package IDs...");
+        logPackageIds();
+    }
+
 
     public void start() {
         if (SessionManager.isLoginPageDetected()) {
@@ -162,22 +227,7 @@ public class SpotifyAutomation {
         // Show the user a prompt for logging in
         Toast.makeText(context, "You are logged out. Please log in again.", Toast.LENGTH_LONG).show();
     }
-//    private void triggerLogin() {
-//        String authToken = realAuthLoginMethod();  // Call the login method to get a real token
-//
-//        if (authToken != null) {
-//            // Assume the token expires in 1 hour for example
-//            long expiryTime = System.currentTimeMillis() + 3600000;  // 1 hour expiry
-//            sessionManager.saveAuthToken(authToken, expiryTime);  // Save the valid token securely along with expiry time
-//            Log.d(TAG, "Token saved successfully, proceeding with automation...");
-//            start();  // Proceed with automation after login
-//        } else {
-//            Log.e(TAG, "Login failed. Cannot proceed with automation.");
-//            // Optionally: Show a message to the user
-//            Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_LONG).show();
-//            // Or navigate the user to the login screen
-//        }
-//    }
+
 
     private String realAuthLoginMethod() {
         // This is where the real authentication with Spotify should happen.
@@ -186,8 +236,6 @@ public class SpotifyAutomation {
         String authToken = "your-actual-auth-token"; // Replace with the real auth token from Spotify
         return authToken;
     }
-
-
 
 
     private int parseIntSafe(Object value) {
@@ -199,27 +247,12 @@ public class SpotifyAutomation {
     }
 
 
-//    public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        // Call start_original with callback
-//        start_clone(() -> {
-//            Log.d(TAG, "✅ Original automation finished! Starting clone...");
-//
-//            // Optional: Add small delay between automations
-//            handler.postDelayed(() -> {
-//                start_clone(() -> {
-//                    Log.d(TAG, "✅ All automations completed successfully!");
-//                    // Both automations are now completely done
-//                });
-//            }, 5000); // 5 second delay between automations
-//        });
-//    }
-
-        public void startAutomation() {
+    public void startAutomation() {
         Log.d(TAG, "Starting Original Spotify Automation...");
 
-//        loadOrResetHistory();
+//        startTemp();
+
+//       loadOrResetHistory();
 
         // ✅ Start the scheduler here
         scheduler.startScheduler();
@@ -240,200 +273,11 @@ public class SpotifyAutomation {
     }
 
 
-
-//public void start() {
-//    Log.d(TAG, "🚀 Starting Spotify session...");
-//
-//    // Step 1: Launch original app
-//    launchApp(() -> {
-//        Log.d(TAG, "🎵 Original Spotify launched.");
-//
-//        // Wait 5 seconds
-//        handler.postDelayed(() -> {
-//
-//            // Step 2: Launch cloned app
-//            launchAppClone(() -> {
-//                Log.d(TAG, "🎵 Cloned Spotify launched.");
-//
-//                // Wait another 5 seconds
-//                handler.postDelayed(() -> {
-//
-//                    // Step 3: Clear both apps from recents
-//                    clearOnlySpotifyApps(() -> {
-//                        Log.d(TAG, "✅ Both Spotify apps cleared. Session complete.");
-//                        // Optionally trigger next session or callback here
-//                    });
-//
-//                }, 5000);
-//
-//            });
-//
-//        }, 5000);
-//
-//    });
-//}
-//
-
-//     Main start function
-
-//
-//    public void start() {
-//        Log.d(TAG, "Starting Original Spotify Automation...");
-//        loadOrResetHistory();
-//        // Call start_original with callback
-//        start_original(() -> {
-//            Log.d(TAG, "✅ Original automation completed!");
-//        });
-//            // Start monitoring song changes (after original app starts)
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-////                    monitorSongChanges();  // Check for song changes
-//                    handler.postDelayed(this, 2000);  // Call every 2 seconds
-//                }
-//            }, 2000);  // Start checking for song changes after 2 seconds
-//    }
-
-
-//        public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        // Call start_original with callback
-//        start_original(() -> {
-//            Log.d(TAG, "✅ Original automation finished! Starting clone...");
-//
-//            // Optional: Add small delay between automations
-////            handler.postDelayed(() -> {
-////                start_clone(() -> {
-////                    Log.d(TAG, "✅ All automations completed successfully!");
-////                    // Both automations are now completely done
-////                });
-////            }, 5000); // 5 second delay between automations
-//        });
-//    }
-
-    //correct one
-//    void start_original(Action onComplete) {
+//    void start_original(String packageId, Action onComplete) {
 //        Log.d(TAG, "Starting Original Spotify Automation...");
 //
 //        // Launch the app and go to the 'Your Library' tab
-//        launchApp(() -> {
-//            handler.postDelayed(() -> {
-//                // Navigate to 'Your Library' tab
-//                goToYourLibraryTabPremium(() -> {
-//                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
-//
-//
-//                    // Select playlist filter and pick a random playlist
-//                    selectPlaylistsFilter(() -> {
-//                        Log.d(TAG, "✅ Playlists filter applied.");
-//
-//                        selectRandomPlaylist(() -> {
-//                            Log.d(TAG, "✅ Random playlist selected. ");
-//
-//                            // Start playing the song
-//                            clickPlaylistPlayButton(() -> {
-//                                Log.d(TAG, "✅ Playlist started playing.");
-//                                toggleSongMonitoring(); // Start monitoring songs
-//
-//                                Log.d(TAG, "✅ Waiting 20 seconds before stopping the song...");
-//
-//                                handler.postDelayed(() -> {
-//                                    Log.d(TAG, "✅ 20 seconds passed, stopping the song.");
-//
-//                                    clickPlaylistPlayButton(() -> {
-//                                        Log.d(TAG, "✅ Song stopped.");
-//                                        stopMonitoringSong(); // Manually stop monitoring
-//
-//                                        Log.d(TAG, "Songs played so far:\n" + songHistory.toString());
-//                                        Log.d(TAG, "Number of songs played so far: " + countSongsPlayed());
-//
-//                                        // Close the app and trigger onComplete
-//                                        closeMyApp(() -> {
-//                                            if (onComplete != null) {
-//                                                Log.d(TAG, "✅ Original automation completed!");
-//                                                onComplete.execute();
-//                                            }
-//                                        });
-//                                    });
-//
-//                                }, 50000); // Delay for 20 seconds using handler
-//                            });
-//                        });
-//                    });
-//
-//                });
-//            }, 5000); // Wait a few seconds for the app to stabilize after launch
-//        });
-//    }
-
-
-//    void start_original(Action onComplete) {
-//        Log.d(TAG, "Starting Original Spotify Automation...");
-//
-//        // Launch the app and go to the 'Your Library' tab
-//        launchApp(() -> {
-//            handler.postDelayed(() -> {
-//                goToYourLibraryTabPremium(() -> {
-//                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
-//
-//                    // Step 1: Check and clear any existing filter
-//                    checkAndClearFilter(() -> {
-//
-//                        // Step 2: Select the playlists filter (add short delay for safety)
-//                        handler.postDelayed(() -> {
-//                            selectPlaylistsFilter(() -> {
-//                                Log.d(TAG, "✅ Playlists filter applied.");
-//
-//                                // Step 3: Select a random playlist
-//                                selectRandomPlaylist(() -> {
-//                                    Log.d(TAG, "✅ Random playlist selected.");
-//
-//                                    // Step 4: Play the playlist
-//                                    clickPlaylistPlayButton(() -> {
-//                                        Log.d(TAG, "✅ Playlist started playing.");
-//                                        toggleSongMonitoring(); // Start monitoring
-//
-//                                        Log.d(TAG, "✅ Waiting 20 seconds before stopping the song...");
-//
-//                                        // Step 5: Wait 20 seconds, then stop the song
-//                                        handler.postDelayed(() -> {
-//                                            Log.d(TAG, "✅ 20 seconds passed, stopping the song.");
-//
-//                                            clickPlaylistPlayButton(() -> {
-//                                                Log.d(TAG, "✅ Song stopped.");
-//                                                stopMonitoringSong(); // Stop monitoring
-//
-//                                                Log.d(TAG, "Songs played so far:\n" + songHistory.toString());
-//                                                Log.d(TAG, "Number of songs played so far: " + countSongsPlayed());
-//
-//                                                // Step 6: Close the app and complete the flow
-//                                                closeMyApp(() -> {
-//                                                    if (onComplete != null) {
-//                                                        Log.d(TAG, "✅ Original automation completed!");
-//                                                        onComplete.execute();
-//                                                    }
-//                                                });
-//                                            });
-//
-//                                        }, 20000); // 20-second wait
-//                                    });
-//                                });
-//                            });
-//                        }, 1000); // 1-second wait after clearing (or skipping) filter
-//                    });
-//
-//                });
-//            }, 5000); // Wait for app to stabilize after launch
-//        });
-//    }
-
-
-//    void start_original(Action onComplete) {
-//        Log.d(TAG, "Starting Original Spotify Automation...");
-//
-//        // Launch the app and go to the 'Your Library' tab
-//        launchApp(() -> {
+//        launchApp(packageId, () -> {
 //            handler.postDelayed(() -> {
 //                // Step 1: Go to the 'Your Library' tab
 //                goToYourLibraryTabPremium(() -> {
@@ -448,26 +292,33 @@ public class SpotifyAutomation {
 //                                Log.d(TAG, "✅ Playlists filter applied.");
 //
 //                                // Step 4: Select a random playlist
-//                                selectRandomPlaylist(() -> {
-//                                    Log.d(TAG, "✅ Random playlist selected.");
+//                                handler.postDelayed(() -> {
+//                                    // ✅ Pass packageId here
+//                                    selectRandomPlaylist(packageId, () -> {
+//                                        Log.d(TAG, "✅ Random playlist selected.");
 //
-//                                    // Step 5: Play the playlist
-//                                    clickPlaylistPlayButton(() -> {
-//                                        Log.d(TAG, "✅ Playlist started playing.");
+//                                        // Step 5: Play the playlist
+//                                        clickPlaylistPlayButton(() -> {
+//                                            Log.d(TAG, "✅ Playlist started playing.");
 //
-//                                        // Step 6: Call shuffle after starting the playlist
-//                                        shuffle(() -> {
-//                                            Log.d(TAG, "✅ Shuffle completed.");
+//                                            // Step 6: Call shuffle after starting the playlist
+//                                            shuffle(() -> {
+//                                                Log.d(TAG, "✅ Shuffle completed.");
 //
-//                                            // If shuffle is completed, execute onComplete callback
-//                                            if (onComplete != null) {
-//                                                Log.d(TAG, "✅ Shuffle completed, exiting automation.");
-//                                                onComplete.execute();
-//                                            }
+//                                                // Step 7: After shuffle, wait 2 seconds and click the home button
+//                                                handler.postDelayed(() -> {
+//                                                    clickHomeButton(() -> {
+//                                                        Log.d(TAG, "✅ Home button clicked.");
+//                                                        if (onComplete != null) {
+//                                                            onComplete.execute();
+//                                                        }
+//                                                    });
+//                                                }, 2000);
+//                                            });
+//
 //                                        });
-//
 //                                    });
-//                                });
+//                                }, 3000); // 3-second wait after clearing (or skipping) filter
 //                            });
 //                        }, 1000); // 1-second wait after clearing (or skipping) filter
 //                    });
@@ -476,308 +327,118 @@ public class SpotifyAutomation {
 //            }, 5000); // Wait 5 seconds for app to stabilize after launch
 //        });
 //    }
-//
-//
 
-    void start_original(Action onComplete) {
-        Log.d(TAG, "Starting Original Spotify Automation...");
-
-        // Launch the app and go to the 'Your Library' tab
-        launchApp(() -> {
-            handler.postDelayed(() -> {
-                // Step 1: Go to the 'Your Library' tab
-                goToYourLibraryTabPremium(() -> {
-                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
-
-                    // Step 2: Check and clear any existing filter
-                    checkAndClearFilter(() -> {
-
-                        // Step 3: Select the playlists filter (add short delay for safety)
-                        handler.postDelayed(() -> {
-                            selectPlaylistsFilter(() -> {
-                                Log.d(TAG, "✅ Playlists filter applied.");
-
-                                // Step 4: Select a random playlist
-                                handler.postDelayed(() ->{
-                                selectRandomPlaylist(() -> {
-                                    Log.d(TAG, "✅ Random playlist selected.");
-
-                                    // Step 5: Play the playlist
-                                    clickPlaylistPlayButton(() -> {
-                                        Log.d(TAG, "✅ Playlist started playing.");
-
-                                        // Step 6: Call shuffle after starting the playlist
-                                        shuffle(() -> {
-                                            Log.d(TAG, "✅ Shuffle completed.");
-
-                                            // Step 7: After shuffle, wait 2 seconds and click the home button
-                                            handler.postDelayed(() -> {
-                                                clickHomeButton(() -> {
-                                                    Log.d(TAG, "✅ Home button clicked.");
-                                                    if (onComplete != null) {
-                                                        onComplete.execute();
-                                                    }
-                                                });
-                                            }, 2000);
-                                        });
-
-                                    });
-                                });
-                                }, 3000); // 1-second wait after clearing (or skipping) filter
-                            });
-                        }, 1000); // 1-second wait after clearing (or skipping) filter
-                    });
-
-                });
-            }, 5000); // Wait 5 seconds for app to stabilize after launch
-        });
-    }
-
-    void start_clone(Action onComplete) {
-        Log.d(TAG, "Starting Original Spotify Automation...");
-
-        // Launch the app and go to the 'Your Library' tab
-        launchAppClone(() -> {
-            handler.postDelayed(() -> {
-                // Step 1: Go to the 'Your Library' tab
-                goToYourLibraryTabPremium(() -> {
-                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
-
-                    // Step 2: Check and clear any existing filter
-                    checkAndClearFilter(() -> {
-
-                        // Step 3: Select the playlists filter (add short delay for safety)
-                        handler.postDelayed(() -> {
-                            selectPlaylistsFilter(() -> {
-                                Log.d(TAG, "✅ Playlists filter applied.");
-
-                                // Step 4: Select a random playlist
-                                selectRandomPlaylistClone(() -> {
-                                    Log.d(TAG, "✅ Random playlist selected.");
-
-                                    // Step 5: Play the playlist
-                                    clickPlaylistPlayButtonClone(() -> {
-                                        Log.d(TAG, "✅ Playlist started playing.");
-
-                                        // Step 6: Call shuffle after starting the playlist
-                                        shuffle(() -> {
-                                            Log.d(TAG, "✅ Shuffle completed.");
-
-                                            // Step 7: After shuffle, wait 2 seconds and click the home button
-                                            handler.postDelayed(() -> {
-                                                clickHomeButton(() -> {
-                                                    Log.d(TAG, "✅ Home button clicked.");
-                                                    if (onComplete != null) {
-                                                        onComplete.execute();
-                                                    }
-                                                });
-                                            }, 2000);
-                                        });
-
-                                    });
-                                });
-                            });
-                        }, 1000); // 1-second wait after clearing (or skipping) filter
-                    });
-
-                });
-            }, 5000); // Wait 5 seconds for app to stabilize after launch
-        });
-    }
-
-
-
-//    public void start_clone(Action onComplete) {
-//        Log.d(TAG, "Starting Cloned Spotify Automation...");
+//    void start_original(String packageId, Action onComplete) {
+//        Log.d(TAG, "Starting Original Spotify Automation...");
 //
 //        // Launch the app and go to the 'Your Library' tab
-//        launchAppClone(() -> {
+//        launchApp(packageId, () -> {
 //            handler.postDelayed(() -> {
-//                // Navigate to 'Your Library' tab
-//                goToYourLibraryTab(() -> {
+//                // Step 1: Go to the 'Your Library' tab
+//                goToYourLibraryTabPremium(() -> {
 //                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
 //
-//                    // Select playlist filter and pick a random playlist
-//                    selectPlaylistsFilter(() -> {
-//                        Log.d(TAG, "✅ Playlists filter applied.");
+//                    // ⏱️ Wait 5s BEFORE checking Grid/List view
+//                    handler.postDelayed(() -> {
+//                        // Ensure Grid/List view BEFORE clearing filter
+//                        ensureGridViewIfNeeded(packageId, () -> {
+//                            Log.d(TAG, "✅ View density checked/applied.");
 //
-//                        selectRandomPlaylistClone(() -> {
-//                            Log.d(TAG, "✅ Random playlist selected. Playing the song...");
+//                            // Step 2: Check and clear any existing filter
+//                            checkAndClearFilter(() -> {
+//                                Log.d(TAG, "✅ Filter cleared (if any). Waiting 5s before selecting Playlists filter...");
 //
-//                            // Start playing the song
-//                            clickPlaylistPlayButtonClone(() -> {
-//                                Log.d(TAG, "✅ Playlist started playing.");
-//
-//                                // Now wait for 20 seconds
-//                                try {
-//                                    Thread.sleep(50000); // Delay for 20 seconds (blocking the thread)
-//                                } catch (InterruptedException e) {
-//                                    Log.e(TAG, "Error during sleep: ", e);
-//                                }
-//
-//                                // After 20 seconds, click the play/pause button again to stop the song
-//                                Log.d(TAG, "20 seconds passed, stopping the song.");
-//                                clickPlaylistPlayButtonClone(() -> {
-//                                    Log.d(TAG, "✅ Song stopped.");
-//
-//                                    // After stopping the song, close the app
-//                                    closeMyApp(() -> {
-//                                        // Execute callback ONLY after app is fully closed
-//                                        if (onComplete != null) {
-//                                            Log.d(TAG, "✅ Clone automation completed!");
-//                                            onComplete.execute();
-//                                        }
-//                                    });
-//                                });
-//                            });
-//                        });
-//                    });
-//                });
-//            }, 5000); // Wait a few seconds for the app to stabilize after launch
-//        });
-//    }
-
-//    public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        // Launch the app and go to the 'Your Library' tab
-//        launchApp(() -> {
-//            handler.postDelayed(() -> {
-//                // Navigate to 'Your Library' tab
-//                goToYourLibraryTab(() -> {
-//                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
-//
-//                    // Now call the function to select a random playlist and play it
-//                    selectRandomPlaylistAndPlay(() -> {
-//                        Log.d(TAG, "✅ Random playlist selected and started.");
-//                    });
-//                });
-//            }, 5000); // Give app some time to stabilize after launch
-//        });
-//    }
-
-//    public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        // Step 1: Launch the Spotify app
-//        launchApp(() -> {
-//            Log.d(TAG, "Spotify app launched.");
-//
-//            // Step 2: Log the Create Playlist input fields
-//            logCreatePlaylistInputs();  // Log the Create Playlist inputs
-//
-//            // Additional steps (if any) can follow here
-//            // You can call other functions like navigating to tabs, etc., after logging
-//            handler.postDelayed(() -> {
-//                Log.d(TAG, "Completed logging Create Playlist inputs.");
-//            }, 2000); // Add delay to simulate time for logging and further actions
-//        });
-//    }
-
-//    public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        // Step 1: Launch the Spotify app
-//        launchApp(() -> {
-//            Log.d(TAG, "Spotify app launched.");
-//
-//            // Step 2: Log the Create Playlist input fields
-//            logCreatePlaylistInputs();  // Log the Create Playlist inputs
-//
-//            // Step 3: Call the createPlaylist function after logging inputs
-//            createPlaylist(() -> {
-////                Log.d(TAG, "Playlist creation completed successfully.");
-//            });
-//        });
-//    }
-
-
-
-//    public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        launchApp(() -> {
-//            handler.postDelayed(() -> {
-//                goToSearchTab(() -> {
-//                    Log.d(TAG, "✅ Search tab navigation complete. Starting scroll to end...");
-//
-//                    // ⬇️ Step 1: Scroll till end of page
-//                    scrollToEndOfPage(() -> {
-//                        Log.d(TAG, "✅ Reached bottom. Now scrolling to top...");
-//
-//                        // ⬆️ Step 2: Scroll back to top of page
-//                        scrollToTopOfPage(() -> {
-//                            Log.d(TAG, "✅ Reached top of page. Closing app...");
-//                            closeMyApp();  // ⏹️ Optional: add next steps here
-//                        });
-//                    });
-//                });
-//            }, 5000); // Wait for app to stabilize
-//        });
-//    }
-
-
-
-
-
-//    public void start() {
-//        Log.d(TAG, "Starting Spotify Automation...");
-//
-//        launchApp(() -> {
-//            handler.postDelayed(() -> {
-//                goToSearchTab(() -> {
-//                    Log.d(TAG, "Search tab navigation complete.");
-//
-//                    clickSearchBar(() -> {
-//                        Log.d(TAG, "Search bar clicked.");
-//
-//                        typeSongName(() -> {
-//                            Log.d(TAG, "Song typed successfully.");
-//
-//                            clickTopResult(() -> {
-//                                Log.d(TAG, "Top result clicked and song started playing.");
-//
-//                                // Let the song play for 10 seconds
+//                                // ⏱️ Wait 5s BEFORE selecting the playlists filter
 //                                handler.postDelayed(() -> {
-//                                    Log.d(TAG, "10 seconds of playback completed, pausing song.");
+//                                    // Step 3: Select the playlists filter
+//                                    selectPlaylistsFilter(() -> {
+//                                        Log.d(TAG, "✅ Playlists filter applied.");
 //
-//                                    playPauseSong(() -> {
-//                                        Log.d(TAG, "Song paused successfully.");
+//                                        // Step 4: Select a random playlist
+//                                        handler.postDelayed(() -> {
+//                                            selectRandomPlaylist(packageId, () -> {
+//                                                Log.d(TAG, "✅ Random playlist selected.");
 //
-//                                        closeMyApp();  // ✅ Close after pausing song
+//                                                // ⏱️ Wait 5s BEFORE clicking Play
+//                                                handler.postDelayed(() -> {
+//                                                    // Step 5: Play the playlist
+//                                                    clickPlaylistPlayButton(() -> {
+//                                                        Log.d(TAG, "✅ Playlist started playing.");
+//
+//                                                        // ⏱️ Wait 5s BEFORE Shuffle
+//                                                        handler.postDelayed(() -> {
+//                                                            // Step 6: Shuffle
+//                                                            shuffle(() -> {
+//                                                                Log.d(TAG, "✅ Shuffle completed.");
+//
+//                                                                // ⏱️ Wait 5s BEFORE Home
+//                                                                handler.postDelayed(() -> {
+//                                                                    // Step 7: Click the home button
+//                                                                    clickHomeButton(() -> {
+//                                                                        Log.d(TAG, "✅ Home button clicked.");
+//                                                                        if (onComplete != null)
+//                                                                            onComplete.execute();
+//                                                                    });
+//                                                                }, 5000);
+//                                                            });
+//                                                        }, 5000);
+//                                                    });
+//                                                }, 5000);
+//                                            });
+//                                        }, 10000); // small buffer after applying filter
 //                                    });
-//
-//                                }, 10000); // Wait 10 seconds (10000ms)
+//                                }, 10000);
 //                            });
 //                        });
-//                    });
-//
+//                    }, 10000); // wait after Library BEFORE density check
 //                });
-//            }, 5000); // Give Spotify time to stabilize after launch
+//            }, 5000); // initial stabilization after launch
 //        });
 //    }
 
-    public void launchApp(Action callback) {
-        Log.d(TAG, "Launching app: " + SPOTIFY_PACKAGE);
-        Intent intent = context.getPackageManager().getLaunchIntentForPackage(SPOTIFY_PACKAGE);
+
+    public void launchApp(String packageId, Action callback) {
+        Log.d(TAG, "Launching app: " + packageId);
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageId);
+
         if (intent != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
 
             handler.postDelayed(() -> {
                 if (spotifyPopUp.handleLaunchPopups(callback)) {
-                    Log.i(TAG, "After Launching Spotify Found a PopUp handling it through Gesture");
+                    Log.i(TAG, "After Launching " + packageId + " Found a PopUp handling it through Gesture");
                     return;
                 }
                 callback.execute();
             }, 5000 + random.nextInt(5000));
         } else {
-            Log.e(TAG, "Could not launch app: " + SPOTIFY_PACKAGE);
-            launchSpotifyExplicitly(callback);
+            Log.e(TAG, "Could not launch app: " + packageId);
+            launchAppExplicitly(packageId, callback); // ✅ Updated to pass packageId
         }
     }
 
 
+    private void launchAppExplicitly(String packageId, Action callback) {
+        Log.d(TAG, "Entered launchAppExplicitly.");
+        Intent intent = new Intent(Intent.ACTION_VIEW)
+                .setData(Uri.parse("https://open.spotify.com/")) // Optional: change URI based on packageId if needed
+                .setPackage(packageId)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        try {
+            context.startActivity(intent);
+            handler.postDelayed(() -> {
+                if (spotifyPopUp.handleLaunchPopups(callback)) {
+                    Log.i(TAG, "After launching app found a popup; handling it through gesture.");
+                    return;
+                }
+                callback.execute();
+            }, 5000 + random.nextInt(5000));
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to launch app with package: " + packageId, e);
+        }
+    }
 
     private void loadOrResetHistory() {
         SharedPreferences prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -800,26 +461,7 @@ public class SpotifyAutomation {
             Log.d(TAG, "📅 Resuming song history from SharedPreferences.");
         }
     }
-    private void launchSpotifyExplicitly(Action callback) {
-        Log.d(TAG, "Entered launchSpotifyExplicitly.");
-        Intent intent = new Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse("https://open.spotify.com/"))
-                .setPackage(SPOTIFY_PACKAGE)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        try {
-            context.startActivity(intent);
-            handler.postDelayed(() -> {
-                if (spotifyPopUp.handleLaunchPopups(callback)) {
-                    Log.i(TAG, "After Launching Spotify Found a PopUp handling it through Gesture");
-                    return;
-                }
-                callback.execute();
-            }, 5000 + random.nextInt(5000));
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to launch Spotify", e);
-        }
-    }
 //    public void closeMyApp() {
 //        if (shouldContinueAutomation()) {
 //            return;
@@ -923,6 +565,7 @@ public class SpotifyAutomation {
             }
         }, null);
     }
+
     public void goToSearchTab(Action CallBack) {
         Log.d(TAG, "Attempting to navigate to Search tab in Spotify");
 
@@ -949,32 +592,7 @@ public class SpotifyAutomation {
             }, 1000);
         }
     }
-    public void goToCreateTab(Action CallBack) {
-        Log.d(TAG, "Attempting to navigate to Create tab");
 
-        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-
-        if (rootNode == null) {
-            Log.e(TAG, "Root node is null");
-            handler.postDelayed(() -> {
-                helperFunctions.cleanupAndExit("Root node null while navigating to Create", "error");
-            }, 1000);
-            return;
-        }
-
-        AccessibilityNodeInfo createTab = HelperFunctions.findNodeByContentDesc(rootNode, "Create, Tab 5 of 5");
-
-        if (createTab != null) {
-            Rect bounds = new Rect();
-            createTab.getBoundsInScreen(bounds);
-            helperFunctions.clickOnBounds(bounds, CallBack, "Center", 1500, 3000, helperFunctions);
-        } else {
-            Log.e(TAG, "Create tab not found via content-desc");
-            handler.postDelayed(() -> {
-                helperFunctions.cleanupAndExit("Create tab not found", "error");
-            }, 1000);
-        }
-    }
     public void goToHomeTab(Action CallBack) {
         Log.d(TAG, "Attempting to navigate to Home tab");
 
@@ -1002,6 +620,7 @@ public class SpotifyAutomation {
             }, 1000);
         }
     }
+
     public void goToYourLibraryTab(Action CallBack) {
         Log.d(TAG, "Attempting to navigate to Your Library tab");
 
@@ -1055,6 +674,7 @@ public class SpotifyAutomation {
             }, 1000);
         }
     }
+
     public void clickSearchBar(Action callback) {
         Log.d(TAG, "Attempting to click search bar...");
 
@@ -1081,6 +701,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("Search bar not found", "error");
         }
     }
+
     public void typeSongName(Action callback) {
         Log.d(TAG, "Attempting to type song name...");
         AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
@@ -1108,7 +729,8 @@ public class SpotifyAutomation {
                     } else {
                         Rect bounds = new Rect();
                         searchButton.getBoundsInScreen(bounds);
-                        helperFunctions.clickOnBounds(bounds, () -> {}, "Center", 0, 0, helperFunctions);
+                        helperFunctions.clickOnBounds(bounds, () -> {
+                        }, "Center", 0, 0, helperFunctions);
                     }
 
                     // Wait for search to trigger, then execute callback
@@ -1127,6 +749,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("Cannot type song", "error");
         }
     }
+
     private String getSongNameFromInputs() {
         Log.d(TAG, "Inside getSongNameFromInputs() ");
         // 1) Dump raw payload
@@ -1165,6 +788,7 @@ public class SpotifyAutomation {
         Log.e(TAG, "❌ No song name found");
         return null;
     }
+
     public void clickTopResult(Action callback) {
         Log.d(TAG, "Attempting to click top search result...");
 
@@ -1218,6 +842,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("Cannot find search results", "error");
         }
     }
+
     public void playPauseSong(Action callback) {
         Log.d(TAG, "Attempting to play/pause song...");
 
@@ -1262,6 +887,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("Cannot find play/pause button", "error");
         }
     }
+
     public boolean shouldContinueAutomation() {
         Log.e(TAG, "Entered shouldContinueAutomation");
 
@@ -1280,9 +906,11 @@ public class SpotifyAutomation {
 
         return false;
     }
+
     private void performFastScroll(Action callback) {
         performScroll(150, callback); // shorter gesture
     }
+
     public void performModerateScroll(Action callback) {
         if (shouldContinueAutomation()) return;
 
@@ -1321,6 +949,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("Gesture failed", "error");
         }
     }
+
     private void performScroll(int gestureDuration, Action callback) {
         Path swipePath = new Path();
         int screenHeight = context.getResources().getDisplayMetrics().heightPixels;
@@ -1360,6 +989,7 @@ public class SpotifyAutomation {
             handler.postDelayed(callback::execute, 500 + random.nextInt(500));
         }
     }
+
     public void performStaticScrollUp(Action callback) {
         if (shouldContinueAutomation()) return;
 
@@ -1416,6 +1046,7 @@ public class SpotifyAutomation {
             }, 1000 + random.nextInt(500));
         }
     }
+
     public void performScrollUp(Action callback) {
         if (shouldContinueAutomation()) {
             return;
@@ -1469,6 +1100,7 @@ public class SpotifyAutomation {
             }, 1000 + random.nextInt(2000));
         }
     }
+
     public void scrollToEndOfPage(Action onComplete) {
         Log.d(TAG, "▶️ Started scrollToEndOfPage");
 
@@ -1536,6 +1168,7 @@ public class SpotifyAutomation {
 
         scrollRunnable[0].run();
     }
+
     // Performs a single moderate downward scroll with natural variation
     public void performModerateScrollDown(Action callback) {
         if (shouldContinueAutomation()) return;
@@ -1581,6 +1214,7 @@ public class SpotifyAutomation {
             ), 1000);
         }
     }
+
     public void performStaticScrollDown(Action callback) {
         if (shouldContinueAutomation()) return;
 
@@ -1623,6 +1257,7 @@ public class SpotifyAutomation {
             }, 1000 + random.nextInt(2000));
         }
     }
+
     public void performTimedScrollDown(long durationInMillis, Runnable onTimeUpCallback) {
         Log.d(TAG, "▶️ Started performTimedScrollDown | Duration: " + durationInMillis + "ms");
 
@@ -1685,6 +1320,7 @@ public class SpotifyAutomation {
 
         scrollRunnable[0].run();
     }
+
     public void scrollToTopOfPage(Action onComplete) {
         Log.d(TAG, "🔼 Started scrollToTopOfPage");
 
@@ -1728,6 +1364,7 @@ public class SpotifyAutomation {
 
         scrollRunnable[0].run();
     }
+
     public void performTimedScrollUp(long durationInMillis, Runnable onTimeUpCallback) {
         if (shouldContinueAutomation()) return;
 
@@ -1781,6 +1418,7 @@ public class SpotifyAutomation {
             }
         }, durationInMillis + 5000);
     }
+
     // 📍 Performs a single moderate upward scroll with natural randomness
     public void performModerateScrollUp(Action callback) {
         if (shouldContinueAutomation()) return;
@@ -1826,102 +1464,6 @@ public class SpotifyAutomation {
             ), 1000);
         }
     }
-    public void selectRandomPlaylistAndPlay(Action callback) {
-        Log.d(TAG, "Attempting to select a random playlist and play it...");
-
-        // Step 1: Select "Playlists" filter to show only playlists
-        selectPlaylistsFilter(() -> {
-            Log.d(TAG, "Playlists filter applied.");
-
-            // Step 2: Select a random playlist from the list
-            selectRandomPlaylist(() -> {
-                Log.d(TAG, "Random playlist selected. Now selecting and playing a random song...");
-
-                // Step 3: Select a random song from the playlist and play it
-                clickPlaylistPlayButton(() -> {
-                    Log.d(TAG, "Button clicked.");
-                    // Call the callback once done
-                    callback.execute();
-
-                    goToHomeTab(() -> {
-                        Log.d(TAG, "Navigated to Home Tab.");
-                        // Additional logic after navigating to Home can go here if needed
-                    });
-                });
-            });
-        });
-    }
-
-
-    //Working Fine on Premium Account (without clear filter)
-//    public void selectPlaylistsFilter(Action callback) {
-//        Log.d(TAG, "Attempting to select 'Playlists' filter...");
-//        Log.d(TAG, "whats ur problem...");
-//
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null");
-//            handler.postDelayed(() -> {
-//                helperFunctions.cleanupAndExit("Root node null while selecting Playlists filter", "error");
-//            }, 1000);
-//            return;
-//        }
-//
-//        // First, let's debug what content descriptions are available
-//        debugContentDescriptions(rootNode);
-//
-//        // Try to find playlists node with different approaches
-//        AccessibilityNodeInfo playlistsNode = findPlaylistsNode(rootNode);
-//
-//        if (playlistsNode != null) {
-//            Log.d(TAG, "Found 'Playlists' node. Getting bounds and clicking...");
-//
-//            Rect bounds = new Rect();
-//            playlistsNode.getBoundsInScreen(bounds);
-//            helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//            Log.d(TAG, "✅ Clicked on 'Playlists' filter at bounds: " + bounds.toString());
-//        } else {
-//            Log.e(TAG, "'Playlists' button not found.");
-//            handler.postDelayed(() -> {
-//                helperFunctions.cleanupAndExit("'Playlists' button not found", "error");
-//            }, 1000);
-//        }
-//    }
-
-//    public void selectPlaylistsFilter(Action callback) {
-//        Log.d(TAG, "Attempting to select 'Playlists' filter...");
-//        Log.d(TAG, "whats ur problem...");
-//
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null");
-//            handler.postDelayed(() -> {
-//                helperFunctions.cleanupAndExit("Root node null while selecting Playlists filter", "error");
-//            }, 1000);
-//            return;
-//        }
-//
-//        // First, let's debug what content descriptions are available
-//        debugContentDescriptions(rootNode);
-//
-//        // Try to find playlists node with different approaches
-//        AccessibilityNodeInfo playlistsNode = findPlaylistsNode(rootNode);
-//
-//        if (playlistsNode != null) {
-//            Log.d(TAG, "Found 'Playlists' node. Getting bounds and clicking...");
-//
-//            Rect bounds = new Rect();
-//            playlistsNode.getBoundsInScreen(bounds);
-//            helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//            Log.d(TAG, "✅ Clicked on 'Playlists' filter at bounds: " + bounds.toString());
-//        } else {
-//            // If not found, check if the filter is already applied (button missing means already filtered)
-//            Log.d(TAG, "'Playlists' button not found. Assuming filter is already applied.");
-//            handler.postDelayed(callback::execute, 1000); // Proceed after short delay
-//        }
-//    }
 
     public void selectPlaylistsFilter(Action callback) {
         Log.d(TAG, "Attempting to select 'Playlists' filter...");
@@ -2138,44 +1680,6 @@ public class SpotifyAutomation {
         }
     }
 
-//    private AccessibilityNodeInfo findPlaylistsNode(AccessibilityNodeInfo node) {
-//        if (node == null) return null;
-//
-//        CharSequence contentDesc = node.getContentDescription();
-//        if (contentDesc != null) {
-//            String desc = contentDesc.toString();
-//            // Try different variations
-//            if (desc.equals("Playlists, show only playlists.") ||
-//                    desc.contains("Playlists") ||
-//                    desc.toLowerCase().contains("playlists")) {
-//
-//                // If this node is clickable, return it
-//                if (node.isClickable()) {
-//                    Log.d(TAG, "Found clickable playlists node: " + desc);
-//                    return node;
-//                }
-//
-//                // Otherwise, find clickable parent
-//                AccessibilityNodeInfo parent = node.getParent();
-//                while (parent != null && !parent.isClickable()) {
-//                    parent = parent.getParent();
-//                }
-//
-//                if (parent != null) {
-//                    Log.d(TAG, "Found clickable parent for playlists node: " + desc);
-//                    return parent;
-//                }
-//            }
-//        }
-//
-//        // Search children
-//        for (int i = 0; i < node.getChildCount(); i++) {
-//            AccessibilityNodeInfo result = findPlaylistsNode(node.getChild(i));
-//            if (result != null) return result;
-//        }
-//
-//        return null;
-//    }
 
     private AccessibilityNodeInfo findPlaylistsNode(AccessibilityNodeInfo node) {
         if (node == null) return null;
@@ -2214,51 +1718,13 @@ public class SpotifyAutomation {
 
         return null;
     }
+
     private String getBounds(AccessibilityNodeInfo node) {
         Rect bounds = new Rect();
         node.getBoundsInScreen(bounds);
         return bounds.toString();
     }
-//    public void selectRandomPlaylist(Action callback) {
-//        Log.d(TAG, "Attempting to select a random playlist...");
-//
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null in selectRandomPlaylist.");
-//            helperFunctions.cleanupAndExit("Root node is null", "error");
-//            return;
-//        }
-//
-//        // Find the RecyclerView containing the list of playlists
-//        AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByResourceId(rootNode, "com.spotify.music:id/recycler_view");
-//        if (recyclerView != null) {
-//            // Get all the playlists within the RecyclerView (look for rows that are clickable)
-//            List<AccessibilityNodeInfo> playlistItems = HelperFunctions.findNodesByResourceId(recyclerView, "com.spotify.music:id/card_root");
-//
-//            if (playlistItems != null && !playlistItems.isEmpty()) {
-//                // Randomly select a playlist
-//                Random rand = new Random();
-//                int randomIndex = rand.nextInt(playlistItems.size());
-//                AccessibilityNodeInfo randomPlaylist = playlistItems.get(randomIndex);
-//
-//                if (randomPlaylist != null && randomPlaylist.isClickable()) {
-//                    Rect bounds = new Rect();
-//                    randomPlaylist.getBoundsInScreen(bounds);
-//                    helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//                    Log.d(TAG, "Random playlist selected and clicked.");
-//                } else {
-//                    Log.e(TAG, "Random playlist not clickable or found.");
-//                    helperFunctions.cleanupAndExit("Random playlist not clickable", "error");
-//                }
-//            } else {
-//                Log.e(TAG, "No playlists found in the RecyclerView.");
-//                helperFunctions.cleanupAndExit("No playlists found", "error");
-//            }
-//        } else {
-//            Log.e(TAG, "RecyclerView not found.");
-//            helperFunctions.cleanupAndExit("RecyclerView not found", "error");
-//        }
-//    }
+
 
 //    public void selectRandomPlaylist(Action callback) {
 //        try {
@@ -2310,57 +1776,6 @@ public class SpotifyAutomation {
 //            helperFunctions.cleanupAndExit("Exception occurred: " + e.getMessage(), "error");
 //        }
 //    }
-
-    public void selectRandomPlaylist(Action callback) {
-        try {
-            Log.d(TAG, "Attempting to select a random playlist...");
-
-            // Get the root node of the active window
-            AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-            if (rootNode == null) {
-                Log.e(TAG, "Root node is null in selectRandomPlaylist.");
-                helperFunctions.cleanupAndExit("Root node is null", "error");
-                return;
-            }
-
-            // Find the RecyclerView containing the list of playlists
-            AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByResourceId(rootNode, "com.spotify.music:id/recycler_view");
-            if (recyclerView != null) {
-                // Get all the playlist items by the resource-id 'com.spotify.music:id/card_root'
-                List<AccessibilityNodeInfo> playlistItems = HelperFunctions.findNodesByResourceId(recyclerView, "com.spotify.music:id/card_root");
-
-                if (playlistItems != null && !playlistItems.isEmpty()) {
-                    // Randomly select a playlist
-                    Random rand = new Random();
-                    int randomIndex = rand.nextInt(playlistItems.size());
-                    AccessibilityNodeInfo randomPlaylist = playlistItems.get(randomIndex);
-
-                    if (randomPlaylist != null && randomPlaylist.isClickable()) {
-                        // Get the bounds of the selected playlist to simulate the click action
-                        Rect bounds = new Rect();
-                        randomPlaylist.getBoundsInScreen(bounds);
-
-                        // Clicking on the bounds of the selected playlist
-                        helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-                        Log.d(TAG, "Random playlist selected and clicked.");
-                    } else {
-                        Log.e(TAG, "Random playlist not clickable or found.");
-                        helperFunctions.cleanupAndExit("Random playlist not clickable", "error");
-                    }
-                } else {
-                    Log.e(TAG, "No playlists found in the RecyclerView.");
-                    helperFunctions.cleanupAndExit("No playlists found", "error");
-                }
-            } else {
-                Log.e(TAG, "RecyclerView not found.");
-                helperFunctions.cleanupAndExit("RecyclerView not found", "error");
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Exception occurred while selecting a random playlist: " + e.getMessage());
-            e.printStackTrace();
-            helperFunctions.cleanupAndExit("Exception occurred: " + e.getMessage(), "error");
-        }
-    }
 
 
     public void selectRandomSongFromPlaylist(Action callback) {
@@ -2451,36 +1866,6 @@ public class SpotifyAutomation {
         }
     }
 
-
-//    public void selectArtistsFilter(Action callback) {
-//        Log.d(TAG, "Attempting to select 'Artists' filter...");
-//
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null");
-//            handler.postDelayed(() -> {
-//                helperFunctions.cleanupAndExit("Root node null while selecting Artists filter", "error");
-//            }, 1000);
-//            return;
-//        }
-//
-//        // Find the "Artists" filter button by its content description
-//        AccessibilityNodeInfo artistsButton = HelperFunctions.findNodeByContentDesc(rootNode, "Artists, show only artists.");
-//
-//        if (artistsButton != null) {
-//            // Click on the Artists button if it's found
-//            Rect bounds = new Rect();
-//            artistsButton.getBoundsInScreen(bounds);
-//            helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//            Log.d(TAG, "'Artists' filter button clicked.");
-//        } else {
-//            Log.e(TAG, "'Artists' button not found.");
-//            handler.postDelayed(() -> {
-//                helperFunctions.cleanupAndExit("'Artists' button not found", "error");
-//            }, 1000);
-//        }
-//    }
 
     public void selectArtistsFilter(Action callback) {
         Log.d(TAG, "Attempting to select 'Artists' filter...");
@@ -2587,6 +1972,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("RecyclerView not found", "error");
         }
     }
+
     public void playArtist(Action callback) {
         Log.d(TAG, "Attempting to play artist...");
 
@@ -2632,6 +2018,7 @@ public class SpotifyAutomation {
             helperFunctions.cleanupAndExit("Cannot find play artist button", "error");
         }
     }
+
     public void selectRandomArtistAndPlay(Action callback) {
         Log.d(TAG, "Attempting to select a random artist and play it...");
 
@@ -2652,6 +2039,7 @@ public class SpotifyAutomation {
             });
         });
     }
+
     public void logCreatePlaylistInputs() {
         Log.d(TAG, "Starting to log Create Playlist inputs...");
 
@@ -2704,51 +2092,49 @@ public class SpotifyAutomation {
     }
 
 
-
     // --------------------------CLONE -------------------------------------------
 
-    public void selectRandomPlaylistClone(Action callback) {
-        Log.d(TAG, "Attempting to select a random playlist in the cloned app...");
-
-        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-        if (rootNode == null) {
-            Log.e(TAG, "Root node is null in selectRandomPlaylistClone.");
-            helperFunctions.cleanupAndExit("Root node is null", "error");
-            return;
-        }
-
-        // Find the RecyclerView containing the list of playlists in the cloned app
-        //AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByResourceId(rootNode, "com.spotify.musid:id/recycler_view");
-        AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByPartialResourceId(rootNode, "recycler_view");
-        if (recyclerView != null) {
-            // Get all the playlists within the RecyclerView (look for rows that are clickable)
-            List<AccessibilityNodeInfo> playlistItems = HelperFunctions.findNodesByPartialResourceId(recyclerView, "row_root");
-
-            if (playlistItems != null && !playlistItems.isEmpty()) {
-                // Randomly select a playlist
-                Random rand = new Random();
-                int randomIndex = rand.nextInt(playlistItems.size());
-                AccessibilityNodeInfo randomPlaylist = playlistItems.get(randomIndex);
-
-                if (randomPlaylist != null && randomPlaylist.isClickable()) {
-                    Rect bounds = new Rect();
-                    randomPlaylist.getBoundsInScreen(bounds);
-                    helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-                    Log.d(TAG, "Random playlist selected and clicked.");
-                } else {
-                    Log.e(TAG, "Random playlist not clickable or found.");
-                    helperFunctions.cleanupAndExit("Random playlist not clickable", "error");
-                }
-            } else {
-                Log.e(TAG, "No playlists found in the RecyclerView.");
-                helperFunctions.cleanupAndExit("No playlists found", "error");
-            }
-        } else {
-            Log.e(TAG, "RecyclerView not found.");
-            helperFunctions.cleanupAndExit("RecyclerView not found", "error");
-        }
-    }
-
+//    public void selectRandomPlaylistClone(Action callback) {
+//        Log.d(TAG, "Attempting to select a random playlist in the cloned app...");
+//
+//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
+//        if (rootNode == null) {
+//            Log.e(TAG, "Root node is null in selectRandomPlaylistClone.");
+//            helperFunctions.cleanupAndExit("Root node is null", "error");
+//            return;
+//        }
+//
+//        // Find the RecyclerView containing the list of playlists in the cloned app
+//        //AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByResourceId(rootNode, "com.spotify.musid:id/recycler_view");
+//        AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByPartialResourceId(rootNode, "recycler_view");
+//        if (recyclerView != null) {
+//            // Get all the playlists within the RecyclerView (look for rows that are clickable)
+//            List<AccessibilityNodeInfo> playlistItems = HelperFunctions.findNodesByPartialResourceId(recyclerView, "row_root");
+//
+//            if (playlistItems != null && !playlistItems.isEmpty()) {
+//                // Randomly select a playlist
+//                Random rand = new Random();
+//                int randomIndex = rand.nextInt(playlistItems.size());
+//                AccessibilityNodeInfo randomPlaylist = playlistItems.get(randomIndex);
+//
+//                if (randomPlaylist != null && randomPlaylist.isClickable()) {
+//                    Rect bounds = new Rect();
+//                    randomPlaylist.getBoundsInScreen(bounds);
+//                    helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
+//                    Log.d(TAG, "Random playlist selected and clicked.");
+//                } else {
+//                    Log.e(TAG, "Random playlist not clickable or found.");
+//                    helperFunctions.cleanupAndExit("Random playlist not clickable", "error");
+//                }
+//            } else {
+//                Log.e(TAG, "No playlists found in the RecyclerView.");
+//                helperFunctions.cleanupAndExit("No playlists found", "error");
+//            }
+//        } else {
+//            Log.e(TAG, "RecyclerView not found.");
+//            helperFunctions.cleanupAndExit("RecyclerView not found", "error");
+//        }
+//    }
 
 
     public void clickPlaylistPlayButtonClone(Action callback) {
@@ -2818,82 +2204,6 @@ public class SpotifyAutomation {
     }
 
 
-
-
-    //------------CREATE PLAYLIST----------------------------
-
-
-//    public void createPlaylist(Action callback) {
-//        Log.d(TAG, "Navigating to 'Create' tab and selecting a playlist...");
-//
-//        // Step 1: Navigate to the Create tab using the existing function
-//        goToCreateTab(() -> {
-//            Log.d(TAG, "✅ Successfully navigated to 'Create' tab.");
-//
-//            // Step 2: Find and click on the "Playlist" option
-//            AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//            if (rootNode != null) {
-//                try {
-//                    // Method 1: Find by text "Playlist"
-//                    List<AccessibilityNodeInfo> playlistNodes = rootNode.findAccessibilityNodeInfosByText("Playlist");
-//
-//                    if (playlistNodes != null && !playlistNodes.isEmpty()) {
-//                        for (AccessibilityNodeInfo node : playlistNodes) {
-//                            // Check if this is the exact "Playlist" text (not "My playlist #1" etc.)
-//                            if (node.getText() != null && "Playlist".equals(node.getText().toString().trim())) {
-//                                Log.d(TAG, "Found 'Playlist' text node: " + node.getText());
-//
-//                                // Find the clickable parent - traverse up the hierarchy
-//                                AccessibilityNodeInfo clickableParent = findClickableParent(node);
-//
-//                                if (clickableParent != null) {
-//                                    // Click on the parent element
-//                                    Rect bounds = new Rect();
-//                                    clickableParent.getBoundsInScreen(bounds);
-//                                    helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//                                    Log.d(TAG, "✅ Successfully clicked on 'Playlist' option");
-//                                    return;
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    // Method 2: If text search fails, find by ScrollView and look for the specific bounds
-//                    Log.d(TAG, "Text search failed, trying ScrollView approach...");
-//                    AccessibilityNodeInfo scrollView = HelperFunctions.findNodeByClass(rootNode, "android.widget.ScrollView");
-//
-//                    if (scrollView != null) {
-//                        Log.d(TAG, "Found ScrollView, searching for Playlist option...");
-//                        AccessibilityNodeInfo playlistOption = findPlaylistInScrollView(scrollView);
-//
-//                        if (playlistOption != null) {
-//                            Rect bounds = new Rect();
-//                            playlistOption.getBoundsInScreen(bounds);
-//                            helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//                            Log.d(TAG, "✅ Successfully clicked on 'Playlist' option via ScrollView");
-//                            return;
-//                        }
-//                    }
-//
-//                    // Method 3: Last resort - click on approximate coordinates
-//                    Log.d(TAG, "ScrollView search failed, using coordinate fallback...");
-//                    // Based on XML bounds [24,940][696,1116] - click in center
-//                    Rect fallbackBounds = new Rect(24, 940, 696, 1116);
-//                    helperFunctions.clickOnBounds(fallbackBounds, callback, "Center", 1500, 3000, helperFunctions);
-//                    Log.d(TAG, "✅ Clicked on fallback coordinates for Playlist option");
-//
-//                } catch (Exception e) {
-//                    Log.e(TAG, "Error while searching for Playlist option: " + e.getMessage());
-//                    helperFunctions.cleanupAndExit("Error finding Playlist option", "error");
-//                }
-//            } else {
-//                Log.e(TAG, "Root node is null.");
-//                helperFunctions.cleanupAndExit("Root node is null", "error");
-//            }
-//        });
-//    }
-
     // Helper method to find clickable parent
     private AccessibilityNodeInfo findClickableParent(AccessibilityNodeInfo node) {
         AccessibilityNodeInfo current = node;
@@ -2910,10 +2220,12 @@ public class SpotifyAutomation {
         Log.d(TAG, "No clickable parent found");
         return null;
     }
+
     // Helper method to find playlist option in ScrollView
     private AccessibilityNodeInfo findPlaylistInScrollView(AccessibilityNodeInfo scrollView) {
         return findPlaylistRecursive(scrollView);
     }
+
     // Recursive method to search for the playlist option
     private AccessibilityNodeInfo findPlaylistRecursive(AccessibilityNodeInfo node) {
         if (node == null) return null;
@@ -2943,6 +2255,7 @@ public class SpotifyAutomation {
 
         return null;
     }
+
     // Helper method to check if a node contains "Playlist" text in its children
     private boolean containsPlaylistText(AccessibilityNodeInfo node) {
         if (node == null) return false;
@@ -2962,89 +2275,12 @@ public class SpotifyAutomation {
 
         return false;
     }
+
     // Helper method to create setText arguments for ACTION_SET_TEXT
     private Bundle createSetTextArguments(String text) {
         Bundle arguments = new Bundle();
         arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text);
         return arguments;
-    }
-    public void createPlaylist(Action callback) {
-        Log.d(TAG, "Navigating to 'Create' tab and selecting a playlist...");
-
-        // Step 1: Navigate to the 'Create' tab using the existing function
-        goToCreateTab(() -> {
-            Log.d(TAG, "✅ Successfully navigated to 'Create' tab.");
-
-            // Step 2: Find and click on the "Playlist" option
-            AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-
-            if (rootNode != null) {
-                try {
-                    // Method 1: Find the "Playlist" text on the screen
-                    List<AccessibilityNodeInfo> playlistNodes = rootNode.findAccessibilityNodeInfosByText("Playlist");
-
-                    if (playlistNodes != null && !playlistNodes.isEmpty()) {
-                        for (AccessibilityNodeInfo node : playlistNodes) {
-                            // Check if the text is exactly "Playlist"
-                            if (node.getText() != null && "Playlist".equals(node.getText().toString().trim())) {
-                                Log.d(TAG, "Found 'Playlist' text node: " + node.getText());
-
-                                // Find the clickable parent element using existing helper
-                                AccessibilityNodeInfo clickableParent = findClickableParent(node);
-
-                                if (clickableParent != null) {
-                                    // Click on the parent element
-                                    Rect bounds = new Rect();
-                                    clickableParent.getBoundsInScreen(bounds);
-                                    helperFunctions.clickOnBounds(bounds, () -> {
-                                        Log.d(TAG, "✅ Successfully clicked on 'Playlist' option");
-
-                                        // Wait for the playlist creation dialog to load
-                                        handlePlaylistNameEntry(callback);
-
-                                    }, "Center", 1500, 3000, helperFunctions);
-                                    return; // Exit after clicking
-                                }
-                            }
-                        }
-                    }
-
-                    // Method 2: If text search fails, try ScrollView approach
-                    Log.d(TAG, "Text search failed, trying ScrollView approach...");
-                    AccessibilityNodeInfo scrollView = HelperFunctions.findNodeByClass(rootNode, "android.widget.ScrollView");
-
-                    if (scrollView != null) {
-                        Log.d(TAG, "Found ScrollView, searching for Playlist option...");
-                        AccessibilityNodeInfo playlistOption = findPlaylistInScrollView(scrollView);
-
-                        if (playlistOption != null) {
-                            Rect bounds = new Rect();
-                            playlistOption.getBoundsInScreen(bounds);
-                            helperFunctions.clickOnBounds(bounds, () -> {
-                                Log.d(TAG, "✅ Successfully clicked on 'Playlist' option via ScrollView");
-                                handlePlaylistNameEntry(callback);
-                            }, "Center", 1500, 3000, helperFunctions);
-                            return;
-                        }
-                    }
-
-                    // Method 3: Fallback - click on coordinates
-                    Log.d(TAG, "ScrollView search failed, using coordinate fallback...");
-                    Rect fallbackBounds = new Rect(24, 940, 696, 1116);
-                    helperFunctions.clickOnBounds(fallbackBounds, () -> {
-                        Log.d(TAG, "✅ Clicked on fallback coordinates for Playlist option");
-                        handlePlaylistNameEntry(callback);
-                    }, "Center", 1500, 3000, helperFunctions);
-
-                } catch (Exception e) {
-                    Log.e(TAG, "Error while searching for Playlist option: " + e.getMessage());
-                    helperFunctions.cleanupAndExit("Error finding Playlist option", "error");
-                }
-            } else {
-                Log.e(TAG, "Root node is null.");
-                helperFunctions.cleanupAndExit("Root node is null", "error");
-            }
-        });
     }
 
     // Separate method to handle playlist name entry
@@ -3135,106 +2371,6 @@ public class SpotifyAutomation {
     }
 
 // Note: This function uses existing helper methods:
-// - findClickableParent()
-// - containsPlaylistText()
-// - findPlaylistInScrollView()
-// - findPlaylistRecursive()
-// - HelperFunctions.findNodeByResourceId()
-// - HelperFunctions.findNodeByClass()
-// - HelperFunctions.findNodesByClass()
-// - helperFunctions.clickOnBounds()
-// - helperFunctions.cleanupAndExit()
-
-
-
-
-    //---------------------------------------------------
-//    public void createPlaylist(Action callback) {
-//        Log.d(TAG, "Starting playlist creation process...");
-//
-//        // Step 1: Go to Create tab
-//        goToCreateTab(() -> {
-//            Log.d(TAG, "Create tab navigation complete.");
-//
-//            // Step 2: Click Playlist option
-//            handler.postDelayed(() -> {
-//                Log.d(TAG, "Attempting to click Playlist option...");
-//
-//                AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//                if (rootNode == null) {
-//                    Log.e(TAG, "Root node is null while clicking playlist option");
-//                    helperFunctions.cleanupAndExit("Root node null during playlist creation", "error");
-//                    return;
-//                }
-//
-//                // Find and click playlist option
-//                AccessibilityNodeInfo playlistOption = findPlaylistOptionNode(rootNode);
-//
-//                if (playlistOption != null) {
-//                    if (playlistOption.isClickable() && playlistOption.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
-//                        Log.i(TAG, "Clicked playlist option directly.");
-//                    } else {
-//                        Rect bounds = new Rect();
-//                        playlistOption.getBoundsInScreen(bounds);
-//                        helperFunctions.clickOnBounds(bounds, () -> {}, "Center", 0, 0, helperFunctions);
-//                    }
-//
-//                    // Step 3: Enter playlist name
-//                    handler.postDelayed(() -> {
-//                        Log.d(TAG, "Attempting to enter playlist name...");
-//
-//                        AccessibilityNodeInfo nameInput = helperFunctions.FindAndReturnNodeById("com.spotify.music:id/entity_name", 3);
-//
-//                        if (nameInput != null && nameInput.isEditable()) {
-//                            String playlistName = getPlaylistNameFromInputs();
-//                            if (playlistName != null && !playlistName.isEmpty()) {
-//                                helperFunctions.setText(nameInput, playlistName);
-//                                Log.d(TAG, "Entered playlist name: " + playlistName);
-//
-//                                // Step 4: Click Create button
-//                                handler.postDelayed(() -> {
-//                                    Log.d(TAG, "Attempting to click Create button...");
-//
-//                                    AccessibilityNodeInfo createButton = helperFunctions.FindAndReturnNodeById("com.spotify.music:id/continue_button", 3);
-//
-//                                    if (createButton != null) {
-//                                        if (createButton.isClickable() && createButton.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
-//                                            Log.i(TAG, "Clicked create button directly.");
-//                                        } else {
-//                                            Rect bounds = new Rect();
-//                                            createButton.getBoundsInScreen(bounds);
-//                                            helperFunctions.clickOnBounds(bounds, () -> {}, "Center", 0, 0, helperFunctions);
-//                                        }
-//
-//                                        Log.d(TAG, "Playlist created successfully!");
-//                                        handler.postDelayed(callback::execute, 2000 + random.nextInt(1000));
-//
-//                                    } else {
-//                                        Log.e(TAG, "Create button not found.");
-//                                        helperFunctions.cleanupAndExit("Cannot find create button", "error");
-//                                    }
-//
-//                                }, 2000 + random.nextInt(1000));
-//
-//                            } else {
-//                                Log.e(TAG, "Playlist name is empty or null");
-//                                helperFunctions.cleanupAndExit("No playlist name provided", "error");
-//                            }
-//                        } else {
-//                            Log.e(TAG, "Playlist name input field not found or not editable.");
-//                            helperFunctions.cleanupAndExit("Cannot enter playlist name", "error");
-//                        }
-//
-//                    }, 2000 + random.nextInt(1000));
-//
-//                } else {
-//                    Log.e(TAG, "Playlist option not found.");
-//                    helperFunctions.cleanupAndExit("Cannot find playlist option", "error");
-//                }
-//
-//            }, 2000 + random.nextInt(1000));
-//        });
-//    }
 
     // Helper function to find playlist option node
     private AccessibilityNodeInfo findPlaylistOptionNode(AccessibilityNodeInfo rootNode) {
@@ -3302,89 +2438,6 @@ public class SpotifyAutomation {
     //---------------------------------------------------------
 
     //=============Song changes counter===========================================
-
-    // Monitor song changes (detect new song)
-
-
-
-//
-//    private void monitorSongChanges() {
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null, cannot monitor song changes.");
-//            return; // Exit if root node is not found
-//        }
-//
-//        // Find the song title using the new helper function
-//        AccessibilityNodeInfo songTitleNode = HelperFunctions.findSongTitleByResourceId(rootNode);
-//
-//        if (songTitleNode != null && songTitleNode.getText() != null) {
-//            String currentSongTitle = songTitleNode.getText().toString();
-//
-//            // Log current song title (helps debug)
-//            Log.d(TAG, "Currently playing song: " + currentSongTitle);
-//
-//            // Check if the song has changed (i.e., the current song title is different)
-//            if (currentSong == null || !currentSong.equals(currentSongTitle)) {
-//                // Song has changed, update the currentSong variable
-//                currentSong = currentSongTitle;  // Update the current song
-//                songHistory.append(currentSong).append("\n"); // Append to songHistory
-//                Log.d(TAG, "New song detected: " + currentSong);  // Log when a new song is detected
-//                Log.d(TAG, "Song history:\n" + songHistory.toString()); // Log all songs played so far
-//            }
-//        } else {
-//            Log.e(TAG, "Song title node not found.");
-//        }
-//    }
-//    public void startMonitoringSong() {
-//        Log.d(TAG, "Song started playing, beginning monitoring...");
-//
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                monitorSongChanges();  // Check for song changes
-//                handler.postDelayed(this, 2000);  // Keep checking every 2 seconds
-//            }
-//        }, 2000);  // Start after 2 seconds (to let the song start playing)
-//    }
-//
-//    // Function to stop monitoring the song
-//    public void stopMonitoringSong() {
-//        Log.d(TAG, "Song paused, stopping monitoring...");
-//        handler.removeCallbacksAndMessages(null);  // Stop any scheduled monitoring tasks
-//    }
-//
-
-//    private void monitorSongChanges() {
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//        Log.d(TAG, "🔍 MONITORING CHECK #" + System.currentTimeMillis() + " - Checking for song changes...");
-//
-//
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null, cannot monitor song changes.");
-//            return;
-//        }
-//
-//        AccessibilityNodeInfo songTitleNode = HelperFunctions.findSongTitleByResourceId(rootNode);
-//
-//        if (songTitleNode != null && songTitleNode.getText() != null) {
-//            String detectedSongTitle = songTitleNode.getText().toString().trim();
-//
-//            Log.d(TAG, "Currently detected song: " + detectedSongTitle);
-//
-//            // ✅ FIX: Only update if song actually changed
-//            if (currentSong == null || !currentSong.equals(detectedSongTitle)) {
-//                currentSong = detectedSongTitle;  // Update current song tracker
-//                songHistory.append(currentSong).append("\n"); // Add NEW song to history
-//
-//                Log.d(TAG, "🎵 NEW SONG ADDED: " + currentSong);
-//                Log.d(TAG, "Total songs played: " + countSongsPlayed());
-//            }
-//        } else {
-//            Log.e(TAG, "Song title node not found.");
-//        }
-//    }
 
 
     private void monitorSongChanges() {
@@ -3458,7 +2511,8 @@ public class SpotifyAutomation {
         Log.i(TAG, "📅 DAILY SONG REPORT:");
         Log.i(TAG, songHistory.toString());
     }
-////     Function to toggle the song monitoring state
+
+    /// /     Function to toggle the song monitoring state
     public void toggleSongMonitoring() {
         if (isSongPlaying) {
             // If the song is playing, stop monitoring
@@ -3471,16 +2525,6 @@ public class SpotifyAutomation {
         }
     }
 
-
-
-
-//    public int countSongsPlayed() {
-//        // Count the number of songs by splitting the songHistory by newline
-//        // We subtract 1 to avoid counting the empty line at the end (if any)
-//        int songCount = songHistory.toString().split("\n").length - 1;
-//        Log.d(TAG, "Total songs played: " + songCount); // Log the song count
-//        return songCount;
-//    }
 
     public int countSongsPlayed() {
         if (songHistory.length() == 0) {
@@ -3505,113 +2549,10 @@ public class SpotifyAutomation {
         int count = countSongsPlayed();
         return count >= MAX_SONGS_PER_DAY;
     }
-//    private void monitorSongChanges() {
-//        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//        if (rootNode == null) {
-//            Log.e(TAG, "Root node is null, cannot monitor song changes.");
-//            return; // Exit if root node is not found
-//        }
-//
-//        // Find the song title using the new helper function
-//        AccessibilityNodeInfo songTitleNode = HelperFunctions.findSongTitleByResourceId(rootNode);
-//
-//        if (songTitleNode != null && songTitleNode.getText() != null) {
-//            String currentSongTitle = songTitleNode.getText().toString();
-//
-//            // Log current song title (helps debug)
-//            Log.d(TAG, "Currently playing song: " + currentSongTitle);
-//
-//            // Check if the song has changed (i.e., the current song title is different)
-//            if (currentSong != null && !currentSong.equals(currentSongTitle)) {
-//                // Song has changed, update the currentSong variable
-//                currentSong = currentSongTitle;  // Update the current song
-//                Log.d(TAG, "New song detected: " + currentSong);  // Log when a new song is detected
-//            }
-//        } else {
-//            Log.e(TAG, "Song title node not found.");
-//        }
-//    }
 
 
 //-------------------Shuffle Tracks -----------------------------------------------------
 
-//    public void shuffle(Action callback) {
-//        Log.d(TAG, "✅ Attempting to toggle Shuffle...");
-//
-//        // First, go to the Now Playing Bar
-//        goToNowPlayingBar(() -> {
-//            // Wait for 2 seconds to ensure UI is fully loaded
-//            handler.postDelayed(() -> {
-//                // Now that the UI is loaded, check the current shuffle status
-//                AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//                if (rootNode == null) {
-//                    Log.e(TAG, "✅ Root node is null, cannot proceed with shuffle check.");
-//                    handler.postDelayed(() -> {
-//                        helperFunctions.cleanupAndExit("Root node null while checking shuffle status", "error");
-//                    }, 1000);
-//                    return;
-//                }
-//
-//                // Look for the shuffle button by content description and class name
-//                AccessibilityNodeInfo shuffleNode = HelperFunctions.findNodeByContentDesc(rootNode, "Shuffle tracks");
-//
-//                if (shuffleNode != null) {
-//                    // Check if the shuffle button is clickable (if shuffle is off, it will have the content description "Shuffle tracks")
-//                    if ("Shuffle tracks".equals(shuffleNode.getContentDescription())) {
-//                        Log.d(TAG, "Shuffle is OFF, turning it ON.");
-//                        // If shuffle is off, click to enable shuffle
-//                        Rect bounds = new Rect();
-//                        shuffleNode.getBoundsInScreen(bounds);
-//                        helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//                    } else {
-//                        Log.d(TAG, "✅ Shuffle is already ON, no action needed.");
-//                        // Shuffle is already on, no action taken
-//                        callback.execute();
-//                    }
-//                } else {
-//                    Log.e(TAG, "✅ Shuffle button not found, possibly shuffle is already on or different content description.");
-//                    handler.postDelayed(() -> {
-//                        helperFunctions.cleanupAndExit("Shuffle button not found or unexpected UI state", "error");
-//                    }, 1000);
-//                }
-//            }, 2000); // Wait for 2 seconds before checking the shuffle status
-//        });
-//    }
-
-//
-//    public void shuffle(Action callback) {
-//        Log.d(TAG, "✅ Attempting to toggle Shuffle...");
-//
-//        // First, go to the Now Playing Bar
-//        goToNowPlayingBar(() -> {
-//            // Wait for 2 seconds to ensure UI is fully loaded
-//            handler.postDelayed(() -> {
-//                // Now that the UI is loaded, check the current shuffle status
-//                AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
-//
-//                if (rootNode == null) {
-//                    Log.e(TAG, "Root node is null, cannot proceed with shuffle check.");
-//                    return;  // Simply return, no need to crash the app
-//                }
-//
-//                // Look for the shuffle button by content description
-//                AccessibilityNodeInfo shuffleNode = HelperFunctions.findNodeByContentDesc(rootNode, "Shuffle tracks");
-//
-//                if (shuffleNode != null) {
-//                    // If shuffle button is found (meaning shuffle is off), click to enable shuffle
-//                    Log.d(TAG, "Shuffle is OFF, turning it ON.");
-//                    Rect bounds = new Rect();
-//                    shuffleNode.getBoundsInScreen(bounds);
-//                    helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
-//                } else {
-//                    // If shuffle button is not found, do nothing and just log the state
-//                    Log.d(TAG, "✅ Shuffle button not found, no action needed.");
-//                }
-//            }, 2000); // Wait for 2 seconds before checking the shuffle status
-//        });
-//    }
 
     public void shuffle(Action callback) {
         Log.d(TAG, "✅ Attempting to toggle Shuffle...");
@@ -3653,11 +2594,6 @@ public class SpotifyAutomation {
     }
 
 
-
-
-
-
-
     // Navigate to the "Now Playing Bar" to check the shuffle status
 
     public void goToNowPlayingBar(Action callback) {
@@ -3674,7 +2610,7 @@ public class SpotifyAutomation {
         }
 
         // Look for the "Now Playing Bar" using resource-id
-//        AccessibilityNodeInfo nowPlayingBarNode = HelperFunctions.findNodeByResourceId(rootNode, "com.spotify.music:id/now_playing_bar_layout");
+//
         AccessibilityNodeInfo nowPlayingBarNode = HelperFunctions.findNodeByPartialResourceId(rootNode, "now_playing_bar_layout");
 
 
@@ -3794,6 +2730,7 @@ public class SpotifyAutomation {
             }, 1500);
         }, 1000);
     }
+
     private void closeNodesSequentially(List<AccessibilityNodeInfo> nodes, int index, Action onComplete) {
         if (index >= nodes.size()) {
             Log.d(TAG, "✅ All Spotify apps closed.");
@@ -3884,13 +2821,630 @@ public class SpotifyAutomation {
     }
 
 
+//    public void ensureGridViewIfNeeded(String packageId, Action callback) {
+//        Log.d(TAG, "Checking view density toggle (button_view_density)...");
+//        if (shouldContinueAutomation()) return;
+//
+//        AccessibilityNodeInfo root = service.getRootInActiveWindow();
+//        if (root == null) {
+//            Log.e(TAG, "Root node is null in ensureGridViewIfNeeded");
+//            helperFunctions.cleanupAndExit("Root node null while checking view density", "error");
+//            return;
+//        }
+//
+//        // Build the resource-id: packagename:id/button_view_density
+//        String densityBtnId = packageId + ":id/button_view_density";
+//        AccessibilityNodeInfo densityBtn = HelperFunctions.findNodeByResourceId(root, densityBtnId);
+//
+//        // Fallback: try partial id (for clones / OEM skins)
+//        if (densityBtn == null) {
+//            densityBtn = HelperFunctions.findNodeByPartialResourceId(root, "button_view_density");
+//        }
+//
+//        if (densityBtn == null) {
+//            Log.e(TAG, "View density button not found: " + densityBtnId);
+//            helperFunctions.cleanupAndExit("View density button not found", "error");
+//            return;
+//        }
+//
+//        // Prefer clickable parent if needed
+//        AccessibilityNodeInfo clickable = densityBtn.isClickable() ? densityBtn : findClickableParent(densityBtn);
+//        if (clickable == null) clickable = densityBtn;
+//
+//        // Read content description
+//        CharSequence cd = clickable.getContentDescription();
+//        String desc = cd != null ? cd.toString().trim() : "";
+//        Log.d(TAG, "button_view_density content-desc: '" + desc + "'");
+//
+//        if (desc.equalsIgnoreCase("Show List view")) {
+//            // Already in Grid (tapping would switch to List) → do nothing
+//            Log.d(TAG, "Already in Grid view (desc says 'Show List view'). No action taken.");
+//            handler.postDelayed(() -> {
+//                if (callback != null) callback.execute();
+//            }, 600 + random.nextInt(600));
+//            return;
+//        }
+//
+//        if (desc.equalsIgnoreCase("Show Grid view")) {
+//            // Currently in List; tapping switches to Grid → click
+//            Log.d(TAG, "Currently in List view. Tapping to switch to Grid...");
+//            if (!clickable.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+//                Rect b = new Rect();
+//                clickable.getBoundsInScreen(b);
+//                helperFunctions.clickOnBounds(b, callback, "Center", 1000, 1200, helperFunctions);
+//            } else {
+//                handler.postDelayed(() -> {
+//                    if (callback != null) callback.execute();
+//                }, 1000 + random.nextInt(800));
+//            }
+//            return;
+//        }
+//
+//        // Unknown/empty description → best-effort: do nothing, continue
+//        Log.w(TAG, "Unexpected content-desc for view density: '" + desc + "'. Skipping toggle.");
+//        handler.postDelayed(() -> {
+//            if (callback != null) callback.execute();
+//        }, 600 + random.nextInt(600));
+//    }
+
+    // == Public entry (use this one) ==
+    public void ensureGridViewIfNeeded(String packageId, Action callback) {
+        Log.d(TAG, "Checking view density toggle (button_view_density) with retry...");
+        if (shouldContinueAutomation()) return;
+
+        AccessibilityNodeInfo root = service.getRootInActiveWindow();
+        if (root == null) {
+            Log.e(TAG, "Root node is null in ensureGridViewIfNeeded");
+            helperFunctions.cleanupAndExit("Root node null while checking view density", "error");
+            return;
+        }
+
+        AccessibilityNodeInfo btn = findViewDensityButton(root, packageId);
+        if (btn != null) {
+            handleViewDensityDecision(btn, callback);
+        } else {
+            // mirror your pattern: retry up to 3 times, then exit
+            retryFindViewDensityButton(packageId, callback, 0);
+        }
+    }
+
+    // == Retry loop (mirrors retryFindFilterContainer) ==
+    private void retryFindViewDensityButton(String packageId, Action callback, int retryCount) {
+        if (retryCount >= 3) {
+            Log.e(TAG, "View density button not found after retries.");
+            handler.postDelayed(() -> {
+                helperFunctions.cleanupAndExit("View density button not found after retries", "error");
+            }, 1000);
+            return;
+        }
+
+        handler.postDelayed(() -> {
+            AccessibilityNodeInfo newRoot = service.getRootInActiveWindow();
+            AccessibilityNodeInfo btn = findViewDensityButton(newRoot, packageId);
+
+            if (btn != null) {
+                Log.d(TAG, "View density button found on retry #" + (retryCount + 1));
+                handleViewDensityDecision(btn, callback);
+            } else {
+                retryFindViewDensityButton(packageId, callback, retryCount + 1);
+            }
+        }, 1000);
+    }
+
+    // == Decide to click or not, based on content-desc ==
+    private void handleViewDensityDecision(AccessibilityNodeInfo node, Action callback) {
+        // prefer clickable parent if needed
+        AccessibilityNodeInfo clickable = node.isClickable() ? node : findClickableParent(node);
+        if (clickable == null) clickable = node;
+
+        // try to read content-desc from node or its clickable parent
+        String desc = "";
+        if (clickable.getContentDescription() != null) {
+            desc = clickable.getContentDescription().toString().trim();
+        } else if (node.getContentDescription() != null) {
+            desc = node.getContentDescription().toString().trim();
+        }
+
+        Log.d(TAG, "button_view_density content-desc: '" + desc + "'");
+
+        if ("Show List view".equalsIgnoreCase(desc)) {
+            // Already in Grid (tapping would switch to List) → do nothing
+            Log.d(TAG, "Already in Grid view (desc says 'Show List view'). No action taken.");
+            handler.postDelayed(() -> {
+                if (callback != null) callback.execute();
+            }, 600 + random.nextInt(600));
+            return;
+        }
+
+        if ("Show Grid view".equalsIgnoreCase(desc)) {
+            // Currently in List; tapping switches to Grid → click
+            Log.d(TAG, "Currently in List view. Tapping to switch to Grid...");
+            if (!clickable.performAction(AccessibilityNodeInfo.ACTION_CLICK)) {
+                Rect b = new Rect();
+                clickable.getBoundsInScreen(b);
+                helperFunctions.clickOnBounds(b, callback, "Center", 1000, 1200, helperFunctions);
+            } else {
+                handler.postDelayed(() -> {
+                    if (callback != null) callback.execute();
+                }, 1000 + random.nextInt(800));
+            }
+            return;
+        }
+
+        // Unknown/empty description → best-effort: just continue
+        Log.w(TAG, "Unexpected content-desc for view density: '" + desc + "'. Skipping toggle.");
+        handler.postDelayed(() -> {
+            if (callback != null) callback.execute();
+        }, 600 + random.nextInt(600));
+    }
+
+    // == Finder (ID → partial ID → content-desc), returns the button (or its clickable parent) ==
+    private AccessibilityNodeInfo findViewDensityButton(AccessibilityNodeInfo root, String packageId) {
+        if (root == null) return null;
+
+        // 1) Full resource-id
+        String fullId = packageId + ":id/button_view_density";
+        AccessibilityNodeInfo n = HelperFunctions.findNodeByResourceId(root, fullId);
+        if (n != null) {
+            AccessibilityNodeInfo c = n.isClickable() ? n : findClickableParent(n);
+            return c != null ? c : n;
+        }
+
+        // 2) Partial resource-id (clones/OEM)
+        n = HelperFunctions.findNodeByPartialResourceId(root, "button_view_density");
+        if (n != null) {
+            AccessibilityNodeInfo c = n.isClickable() ? n : findClickableParent(n);
+            return c != null ? c : n;
+        }
+
+        // 3) Content-desc fallback
+        AccessibilityNodeInfo byGrid = HelperFunctions.findNodeByContentDesc(root, "Show Grid view");
+        if (byGrid != null) {
+            AccessibilityNodeInfo c = byGrid.isClickable() ? byGrid : findClickableParent(byGrid);
+            if (c != null) return c;
+        }
+        AccessibilityNodeInfo byList = HelperFunctions.findNodeByContentDesc(root, "Show List view");
+        if (byList != null) {
+            AccessibilityNodeInfo c = byList.isClickable() ? byList : findClickableParent(byList);
+            if (c != null) return c;
+        }
+
+        return null;
+    }
 
 
+//
+//
+//    public void selectRandomPlaylist(String packageName, Action callback) {
+//        Log.d(TAG, "Attempting to select a random playlist (with retry)...");
+//        if (shouldContinueAutomation()) return;
+//        attemptSelectRandomPlaylist(packageName, callback, 0);
+//    }
+//
+//    private void attemptSelectRandomPlaylist(String packageName, Action callback, int retryCount) {
+//        try {
+//            if (retryCount >= 3) {
+//                Log.e(TAG, "selectRandomPlaylist: exceeded retry limit.");
+//                helperFunctions.cleanupAndExit("No playlists found after retries", "error");
+//                return;
+//            }
+//
+//            AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
+//            if (rootNode == null) {
+//                Log.e(TAG, "Root node is null in selectRandomPlaylist (attempt " + (retryCount + 1) + ")");
+//                handler.postDelayed(() ->
+//                        attemptSelectRandomPlaylist(packageName, callback, retryCount + 1), 1000);
+//                return;
+//            }
+//
+//            // 1) Find RecyclerView (full id → partial id)
+//            String recyclerViewId = packageName + ":id/recycler_view";
+//            AccessibilityNodeInfo recyclerView =
+//                    HelperFunctions.findNodeByResourceId(rootNode, recyclerViewId);
+//            if (recyclerView == null) {
+//                recyclerView = HelperFunctions.findNodeByPartialResourceId(rootNode, "recycler_view");
+//            }
+//
+//            if (recyclerView == null) {
+//                Log.d(TAG, "RecyclerView not found, retrying... (attempt " + (retryCount + 1) + ")");
+//                handler.postDelayed(() ->
+//                        attemptSelectRandomPlaylist(packageName, callback, retryCount + 1), 1000);
+//                return;
+//            }
+//
+//            // 2) Find playlist items (full id → partial id)
+//            String cardRootId = packageName + ":id/card_root";
+//            List<AccessibilityNodeInfo> playlistItems =
+//                    HelperFunctions.findNodesByResourceId(recyclerView, cardRootId);
+//
+//            if (playlistItems == null || playlistItems.isEmpty()) {
+//                playlistItems = HelperFunctions.findNodesByPartialResourceId(recyclerView, "card_root");
+//            }
+//
+//            if (playlistItems == null || playlistItems.isEmpty()) {
+//                Log.d(TAG, "No playlist items yet. Performing a small scroll and retrying...");
+//                performModerateScroll(() -> handler.postDelayed(() ->
+//                        attemptSelectRandomPlaylist(packageName, callback, retryCount + 1), 700));
+//                return;
+//            }
+//
+//            // 3) Pick random item and click (prefer clickable parent; fallback to bounds)
+//            Random rand = new Random();
+//            int randomIndex = rand.nextInt(playlistItems.size());
+//            AccessibilityNodeInfo randomPlaylist = playlistItems.get(randomIndex);
+//            Log.d(TAG, "Random playlist index chosen: " + randomIndex);
+//
+//            AccessibilityNodeInfo clickable = (randomPlaylist != null && randomPlaylist.isClickable())
+//                    ? randomPlaylist
+//                    : findClickableParent(randomPlaylist);
+//
+//            if (clickable == null) {
+//                Log.e(TAG, "Random playlist not clickable; retrying...");
+//                handler.postDelayed(() ->
+//                        attemptSelectRandomPlaylist(packageName, callback, retryCount + 1), 600);
+//                return;
+//            }
+//
+//            Rect bounds = new Rect();
+//            clickable.getBoundsInScreen(bounds);
+//            helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
+//            Log.d(TAG, "Random playlist selected and clicked.");
+//
+//        } catch (Exception e) {
+//            Log.e(TAG, "Exception in selectRandomPlaylist attempt #" + (retryCount + 1) + ": " + e.getMessage(), e);
+//            handler.postDelayed(() ->
+//                    attemptSelectRandomPlaylist(packageName, callback, retryCount + 1), 800);
+//        }
+//    }
 
 
+    public void selectRandomPlaylist(String packageName, Action callback) {
+        try {
+            Log.d(TAG, "Attempting to select a random playlist...");
+
+            // Get the root node of the active window
+            AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
+            if (rootNode == null) {
+                Log.e(TAG, "Root node is null in selectRandomPlaylist.");
+                helperFunctions.cleanupAndExit("Root node is null", "error");
+                return;
+            }
+
+            // Find the RecyclerView containing the list of playlists
+            String recyclerViewId = packageName + ":id/recycler_view";
+            AccessibilityNodeInfo recyclerView = HelperFunctions.findNodeByResourceId(rootNode, recyclerViewId);
+
+            if (recyclerView != null) {
+                // Get all the playlist items by the resource-id '...:id/card_root'
+                String cardRootId = packageName + ":id/card_root";
+                List<AccessibilityNodeInfo> playlistItems = HelperFunctions.findNodesByResourceId(recyclerView, cardRootId);
+
+                if (playlistItems != null && !playlistItems.isEmpty()) {
+                    // Randomly select a playlist
+                    Random rand = new Random();
+                    int randomIndex = rand.nextInt(playlistItems.size());
+                    AccessibilityNodeInfo randomPlaylist = playlistItems.get(randomIndex);
+
+                    if (randomPlaylist != null && randomPlaylist.isClickable()) {
+                        // Get the bounds of the selected playlist to simulate the click action
+                        Rect bounds = new Rect();
+                        randomPlaylist.getBoundsInScreen(bounds);
+
+                        // Clicking on the bounds of the selected playlist
+                        helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
+                        Log.d(TAG, "Random playlist selected and clicked.");
+                    } else {
+                        Log.e(TAG, "Random playlist not clickable or found.");
+                        helperFunctions.cleanupAndExit("Random playlist not clickable", "error");
+                    }
+                } else {
+                    Log.e(TAG, "No playlists found in the RecyclerView.");
+                    helperFunctions.cleanupAndExit("No playlists found", "error");
+                }
+            } else {
+                Log.e(TAG, "RecyclerView not found.");
+                helperFunctions.cleanupAndExit("RecyclerView not found", "error");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Exception occurred while selecting a random playlist: " + e.getMessage());
+            e.printStackTrace();
+            helperFunctions.cleanupAndExit("Exception occurred: " + e.getMessage(), "error");
+        }
+    }
+
+
+    // --- Helper: choose the right selector based on current layout (no toggling) ---
+
+    private void selectPlaylistBasedOnLayout(String packageId, Action callback) {
+        try {
+            AccessibilityNodeInfo root = service.getRootInActiveWindow();
+            if (root == null) {
+                Log.w(TAG, "selectPlaylistBasedOnLayout: root is null, default to list selector.");
+                selectRandomPlaylist(packageId, callback);
+                return;
+            }
+
+            String toggleId = packageId + ":id/button_view_density";
+            AccessibilityNodeInfo toggle =
+                    HelperFunctions.findNodeByResourceId(root, toggleId);
+            if (toggle == null) {
+                // fallback to partial match if needed
+                toggle = HelperFunctions.findNodeByPartialResourceId(root, "button_view_density");
+            }
+
+            if (toggle != null) {
+                CharSequence cd = toggle.getContentDescription();
+                String desc = (cd == null) ? "" : cd.toString().toLowerCase();
+                Log.d(TAG, "View density button content-desc: " + desc);
+
+                if (desc.contains("show grid view")) {
+                    // Current is LIST (pressing would show grid) → use list selector
+                    Log.d(TAG, "Detected LIST layout → selectRandomPlaylist");
+                    selectRandomPlaylistClone(packageId, callback);
+                } else if (desc.contains("show list view")) {
+                    // Current is GRID (pressing would show list) → use grid selector
+                    Log.d(TAG, "Detected GRID layout → selectRandomPlaylistClone");
+                    selectRandomPlaylist(packageId, callback);
+
+                } else {
+                    Log.w(TAG, "Unknown content-desc; defaulting to selectRandomPlaylist.");
+                    selectRandomPlaylist(packageId, callback);
+                }
+            } else {
+                Log.w(TAG, "button_view_density not found; defaulting to selectRandomPlaylist.");
+                selectRandomPlaylist(packageId, callback);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "selectPlaylistBasedOnLayout error: " + e.getMessage(), e);
+            // Safe fallback
+            selectRandomPlaylist(packageId, callback);
+        }
+    }
+
+    // --- Start flow using the new idea ---
+    void start_original(String packageId, Action onComplete) {
+        Log.d(TAG, "Starting Original Spotify Automation...");
+
+        launchApp(packageId, () -> {
+            handler.postDelayed(() -> {
+                // Step 1: Go to 'Your Library'
+                goToYourLibraryTabPremium(() -> {
+                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
+
+                    // Step 2: Clear any existing filter
+                    checkAndClearFilter(() -> {
+
+                        // Step 3: Apply 'Playlists' filter
+                        handler.postDelayed(() -> {
+                            selectPlaylistsFilter(() -> {
+                                Log.d(TAG, "✅ Playlists filter applied.");
+
+                                // Step 4: Choose selector based on current layout (no layout switching)
+                                handler.postDelayed(() -> {
+                                    selectPlaylistBasedOnLayout(packageId, () -> {
+                                        Log.d(TAG, "✅ Random playlist selected.");
+
+                                        // Step 5: Play (after 5s)
+                                        handler.postDelayed(() -> {
+                                            clickPlaylistPlayButton(() -> {
+                                                Log.d(TAG, "✅ Playlist started playing.");
+
+                                                // Step 6: Shuffle (after 5s)
+                                                handler.postDelayed(() -> {
+                                                    shuffle(() -> {
+                                                        Log.d(TAG, "✅ Shuffle completed.");
+
+                                                        // Step 7: Home (after 2s)
+                                                        handler.postDelayed(() -> {
+                                                            clickHomeButton(() -> {
+                                                                Log.d(TAG, "✅ Home button clicked.");
+                                                                if (onComplete != null)
+                                                                    onComplete.execute();
+                                                            });
+                                                        }, 2000);
+                                                    });
+                                                }, 5000);
+                                            });
+                                        }, 5000);
+                                    });
+                                }, 3000); // let the list settle before selection
+
+                            });
+                        }, 1000); // small wait after clear (or skip)
+                    });
+                });
+            }, 5000); // let app stabilize after launch
+        });
+    }
+
+    public void selectRandomPlaylistClone(String packageId, Action callback) {
+        Log.d(TAG, "Attempting to select a random playlist in the cloned app...");
+
+        AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
+        if (rootNode == null) {
+            Log.e(TAG, "Root node is null in selectRandomPlaylistClone.");
+            helperFunctions.cleanupAndExit("Root node is null", "error");
+            return;
+        }
+
+        // 1) Find the RecyclerView
+        String recyclerViewId = packageId + ":id/recycler_view";
+        AccessibilityNodeInfo recyclerView =
+                HelperFunctions.findNodeByResourceId(rootNode, recyclerViewId);
+        if (recyclerView == null) {
+            recyclerView = HelperFunctions.findNodeByPartialResourceId(rootNode, "recycler_view");
+        }
+        if (recyclerView == null) {
+            Log.e(TAG, "RecyclerView not found.");
+            helperFunctions.cleanupAndExit("RecyclerView not found", "error");
+            return;
+        }
+
+        // 2) Collect playlist items
+        List<AccessibilityNodeInfo> items =
+                HelperFunctions.findNodesByResourceId(recyclerView, packageId + ":id/row_root");
+        if (items == null || items.isEmpty()) {
+            // Fallback to grid layout
+            items = HelperFunctions.findNodesByResourceId(recyclerView, packageId + ":id/card_root");
+        }
+        if (items == null || items.isEmpty()) {
+            // Final fallback with partials
+            items = HelperFunctions.findNodesByPartialResourceId(recyclerView, "row_root");
+            if (items == null || items.isEmpty()) {
+                items = HelperFunctions.findNodesByPartialResourceId(recyclerView, "card_root");
+            }
+        }
+
+        if (items == null || items.isEmpty()) {
+            Log.e(TAG, "No playlists found inside RecyclerView.");
+            helperFunctions.cleanupAndExit("No playlists found", "error");
+            return;
+        }
+
+        // 3) Prefer clickable nodes (or their clickable parents)
+        List<AccessibilityNodeInfo> clickableItems = new ArrayList<>();
+        for (AccessibilityNodeInfo n : items) {
+            if (n == null) continue;
+            AccessibilityNodeInfo clickNode = n;
+            if (!clickNode.isClickable()) {
+                AccessibilityNodeInfo p = clickNode.getParent();
+                while (p != null && !p.isClickable()) p = p.getParent();
+                if (p != null) clickNode = p;
+            }
+            if (clickNode != null && clickNode.isClickable()) {
+                clickableItems.add(clickNode);
+            }
+        }
+
+        if (clickableItems.isEmpty()) {
+            Log.e(TAG, "Playlist nodes found but none clickable.");
+            helperFunctions.cleanupAndExit("Playlist nodes not clickable", "error");
+            return;
+        }
+
+        // 4) Pick a random clickable item within bounds of the list
+        Random rand = new Random();
+        int count = clickableItems.size();
+        int randomIndex = rand.nextInt(count);
+        AccessibilityNodeInfo target = clickableItems.get(randomIndex);
+
+        Rect bounds = new Rect();
+        target.getBoundsInScreen(bounds);
+        Log.d(TAG, "Random playlist index: " + randomIndex + " / " + count + ", bounds: " + bounds);
+
+        // 5) Click
+        helperFunctions.clickOnBounds(bounds, callback, "Center", 1500, 3000, helperFunctions);
+        Log.d(TAG, "Random playlist selected and clicked.");
+    }
+
+//    -------------------------------------------------------------------------------------------------
+
+//    Login Webhook
+
+// ...existing code...
+
+//    private void checkAndNotifyLoginPage(AccessibilityNodeInfo rootNode) {
+//        if (rootNode == null) return;
+//
+//        // Example: Check for login button or username field
+//        List<AccessibilityNodeInfo> loginNodes = rootNode.findAccessibilityNodeInfosByText("Log in");
+//        if (loginNodes != null && !loginNodes.isEmpty()) {
+//            sendWebhook("Spotify login page detected");
+//            Log.d(TAG, "✅ Login Page detected.");
+//        }
+//    }
+//
+//    private void sendWebhook(String message) {
+//        new Thread(() -> {
+//            try {
+//                // Make sure the endpoint is correct and matches your backend
+//                        URL url = new URL("https://server.appilot.app/ws/"); // <-- Update to correct endpoint if needed
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("POST");
+//                conn.setRequestProperty("Content-Type", "application/json");
+//                conn.setDoOutput(true);
+//
+//                // Ensure payload format matches backend expectations
+//                String json = "{\"message\":\"" + message + "\"}"; // <-- Change key to "message" if required by backend
+//                try (OutputStream os = conn.getOutputStream()) {
+//                    os.write(json.getBytes());
+//                    os.flush();
+//                }
+//                int responseCode = conn.getResponseCode();
+//                Log.d(TAG, "Webhook sent, response: " + responseCode);
+//            } catch (Exception e) {
+//                Log.e(TAG, "Webhook error: " + e.getMessage());
+//            }
+//        }).start();
+//    }
+//
+//
+//    void start_original(String packageId, Action onComplete) {
+//        Log.d(TAG, "Starting Original Spotify Automation...");
+//
+//        launchApp(packageId, () -> {
+//            handler.postDelayed(() -> {
+//                AccessibilityNodeInfo rootNode = service.getRootInActiveWindow();
+//                // Use checkAndNotifyLoginPage instead of inline login detection
+//                checkAndNotifyLoginPage(rootNode);
+//
+//                // If login page detected, stop further automation
+//                List<AccessibilityNodeInfo> loginNodes = rootNode != null ? rootNode.findAccessibilityNodeInfosByText("Log in") : null;
+//                if (loginNodes != null && !loginNodes.isEmpty()) {
+//                    Log.d(TAG, "Login page detected. Stopping automation.");
+//                    return; // Stop execution here
+//                }
+//
+//                // Step 1: Go to 'Your Library'
+//                goToYourLibraryTabPremium(() -> {
+//                    Log.d(TAG, "✅ Successfully navigated to Your Library.");
+//
+//                    // Step 2: Clear any existing filter
+//                    checkAndClearFilter(() -> {
+//
+//                        // Step 3: Apply 'Playlists' filter
+//                        handler.postDelayed(() -> {
+//                            selectPlaylistsFilter(() -> {
+//                                Log.d(TAG, "✅ Playlists filter applied.");
+//
+//                                // Step 4: Choose selector based on current layout (no layout switching)
+//                                handler.postDelayed(() -> {
+//                                    selectPlaylistBasedOnLayout(packageId, () -> {
+//                                        Log.d(TAG, "✅ Random playlist selected.");
+//
+//                                        // Step 5: Play (after 5s)
+//                                        handler.postDelayed(() -> {
+//                                            clickPlaylistPlayButton(() -> {
+//                                                Log.d(TAG, "✅ Playlist started playing.");
+//
+//                                                // Step 6: Shuffle (after 5s)
+//                                                handler.postDelayed(() -> {
+//                                                    shuffle(() -> {
+//                                                        Log.d(TAG, "✅ Shuffle completed.");
+//
+//                                                        // Step 7: Home (after 2s)
+//                                                        handler.postDelayed(() -> {
+//                                                            clickHomeButton(() -> {
+//                                                                Log.d(TAG, "✅ Home button clicked.");
+//                                                                if (onComplete != null)
+//                                                                    onComplete.execute();
+//                                                            });
+//                                                        }, 2000);
+//                                                    });
+//                                                }, 5000);
+//                                            });
+//                                        }, 5000);
+//                                    });
+//                                }, 3000); // let the list settle before selection
+//
+//                            });
+//                        }, 1000); // small wait after clear (or skip)
+//                    });
+//                });
+//            }, 5000); // let app stabilize after launch
+//        });
+//    }
 
 
 
 }
-
-

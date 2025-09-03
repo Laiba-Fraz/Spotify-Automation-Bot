@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="appilot">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-08-06T06:13:41.715036100Z">
+        <DropdownSelection timestamp="2025-08-29T10:13:01.391308900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=11224643CA001591" />

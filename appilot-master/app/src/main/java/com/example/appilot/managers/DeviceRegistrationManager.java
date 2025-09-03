@@ -31,7 +31,7 @@ public class DeviceRegistrationManager {
         // Prepare the request to check if the device is registered
         Request request = new Request.Builder()
 //                .url("https://server.appilot.app/device_registration/" + deviceId)
-                .url("http://192.168.1.28:8000/device_registration/" + deviceId)
+                .url("http://192.168.18.52:8000/device_registration/" + deviceId)
                 .get()
                 .build();
 
@@ -84,7 +84,7 @@ public class DeviceRegistrationManager {
                         registrationBody.toString(), MediaType.parse("application/json"));
                 Request request = new Request.Builder()
 //                        .url("https://server.appilot.app/register_device")
-                        .url("http://192.168.1.28:8000/register_device")
+                        .url("http://192.168.18.52:8000/register_device")
                         .post(body)
                         .addHeader("Content-Type", "application/json")
                         .build();

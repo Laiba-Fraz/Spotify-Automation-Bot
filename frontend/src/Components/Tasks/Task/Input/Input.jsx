@@ -1,6 +1,3 @@
-
-
-
 import RightChevron from "../../../../assets/Icons/RightChevron";
 import GreyButton from "../../../Buttons/GreyButton";
 import classes from "./Input.module.css";
@@ -1011,21 +1008,99 @@ function Input(props) {
             )}
           </div>
         );
-      case "spotifySongInput":
-          return (
-         <InputText
-        label={el.name + ":"}
-        type="text"
-        placeholder={el.placeholder || "Enter song name"}
-        name="input"
-        handler={(val) =>
-          inputTextChangeHandler(index, InnerIndex, val, "input")
-        }
-        isTaskInputs={true}
-        value={el.input}
-         />
-          );
-        case "number":
+      // case "spotifySongInput":
+      //     return (
+      //    <InputText
+      //   label={el.name + ":"}
+      //   type="text"
+      //   placeholder={el.placeholder || "Enter song name"}
+      //   name="input"
+      //   handler={(val) =>
+      //     inputTextChangeHandler(index, InnerIndex, val, "input")
+      //   }
+      //   isTaskInputs={true}
+      //   value={el.input}
+      //    />
+      //     );
+      case "dynamicPackageArray":
+        const maxPackages = 15;
+        const packageArray = el.input || [];
+        
+        return (
+          <div className={classes.Inputscontainer}>
+            <div className={classes.addbuttonInputContainer}>
+              <InputWithButton
+                lable={"Enter App Package ID:"}
+                type="text"
+                name={"packageId"}
+                buttonText="Add Package"
+                placeholder={el.placeholder || "com.spotify.music"}
+                handler={(value) => {
+                  if (value.trim() === "") {
+                    failToast("Please enter package ID");
+                    return;
+                  }
+                  
+                  // Validate package ID format
+                  const packageIdPattern = /^[a-z][a-z0-9_]*(\.[a-zA-Z0-9_]+)*$/
+                  if (!packageIdPattern.test(value.trim())) {
+                    failToast("Please enter a valid package ID format (e.g., com.spotify.music)");
+                    return;
+                  }
+                  
+                  // Check for duplicates
+                  if (packageArray.includes(value.trim())) {
+                    failToast("Package ID already exists");
+                    return;
+                  }
+                  
+                  if (packageArray.length >= maxPackages) {
+                    failToast(`Maximum ${maxPackages} package IDs allowed`);
+                    return;
+                  }
+                  
+                  const updatedPackages = [...packageArray, value.trim()];
+                  inputTextChangeHandler(index, InnerIndex, updatedPackages, "input");
+                }}
+              />
+            </div>
+            
+            {packageArray.length > 0 && (
+              <div className={classes.packageListContainer}>
+                <p className={classes.setInputsHeading}>Added Package IDs:</p>
+                {packageArray.map((packageId, packageIndex) => (
+                  <div key={packageIndex} className={classes.accountContainer}>
+                    <div className={classes.accountHeaderContainer}>
+                      <div className={classes.packageIdText}>
+                        {packageId}
+                      </div>
+                      <div className={classes.accountActions}>
+                        <button
+                          className={classes.removeAccountBtn}
+                          onClick={() => {
+                            const updatedPackages = packageArray.filter((_, i) => i !== packageIndex);
+                            inputTextChangeHandler(index, InnerIndex, updatedPackages, "input");
+                          }}
+                          aria-label="Remove package"
+                          title="Remove package"
+                        >
+                          <Cross />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            {packageArray.length === 0 && (
+              <div className={classes.emptyState}>
+                <p>No package IDs added yet. Add at least one package ID to proceed.</p>
+              </div>
+            )}
+          </div>
+        );
+      case "number":
           return (
          <NumberInput
         label={el.name + ":"}
@@ -1038,144 +1113,144 @@ function Input(props) {
         value={el.input}
          />
           );
-        case "dynamicSessionArray":
-          // Constraint: sum of all clones should not be more than 15
-          // Constraint: sum of all session durations should not exceed 24 hours
-          const maxClones = 15;
-          const maxTotalMinutes = 24 * 60;
-          const sessionCount = inputs.inputs[index].inputs.find(i => i.name === "Number of Sessions")?.input || 1;
-          const currentClonesSum = (el.input || []).reduce((sum, s) => sum + (parseInt(s.clones, 10) || 0), 0);
-          const currentTotalMinutes = (el.input || []).reduce(
-         (sum, s) =>
-           sum +
-           ((parseInt(s.duration?.hours, 10) || 0) * 60 +
+      case "dynamicSessionArray":
+        // Constraint: sum of all clones should not be more than 15
+        // Constraint: sum of all session durations should not exceed 24 hours
+        const maxClones = 15;
+        const maxTotalMinutes = 24 * 60;
+        const sessionCount = inputs.inputs[index].inputs.find(i => i.name === "Number of Sessions")?.input || 1;
+        const currentClonesSum = (el.input || []).reduce((sum, s) => sum + (parseInt(s.clones, 10) || 0), 0);
+        const currentTotalMinutes = (el.input || []).reduce(
+          (sum, s) =>
+        sum +
+        ((parseInt(s.duration?.hours, 10) || 0) * 60 +
           (parseInt(s.duration?.minutes, 10) || 0)),
-         0
-          );
-
-          return (
-          <div className={classes.dynamicListContainer}>
-         <div className={classes.dynamicListHeader}>
-         <label>{el.name}:</label>
-         <p className={classes.description}>{el.description}</p>
-         </div>
-         <div className={classes.songsListContainer}>
-         {Array.from({ length: sessionCount }).map((_, sessionIndex) => {
-        const sessionData = el.input?.[sessionIndex] || { duration: { hours: "", minutes: "" }, clones: "" };
-        return (
-        <div key={sessionIndex} className={classes.songInputRow}>
-          <div className={classes.sessionRow}>
-          <div className={classes.sessionNumber}>
-         Session {sessionIndex + 1}
-          </div>
-          <div className={classes.durationFields}>
-         <div className={classes.inputGroup}>
-           <label>Hours:</label>
-           <input
-          type="number"
-          min={0}
-          max={24}
-          value={sessionData.duration?.hours ?? 0}
-          onChange={(e) => {
-            const updatedSessions = el.input ? [...el.input] : [];
-            let hours = parseInt(e.target.value, 10);
-            if (isNaN(hours) || hours < 0) hours = 0;
-            if (hours > 24) hours = 24;
-            // Calculate new total minutes if this session's hours are changed
-            const prevMinutes = (parseInt(sessionData.duration?.hours, 10) || 0) * 60 + (parseInt(sessionData.duration?.minutes, 10) || 0);
-            const newMinutes = (hours * 60) + (parseInt(sessionData.duration?.minutes, 10) || 0);
-            const otherTotalMinutes = currentTotalMinutes - prevMinutes;
-            if (otherTotalMinutes + newMinutes > maxTotalMinutes) {
-           failToast(`Total session time for all sessions cannot exceed 24 hours.`);
-           return;
-            }
-            updatedSessions[sessionIndex] = {
-           ...sessionData,
-           duration: {
-             hours: hours,
-             minutes: sessionData.duration?.minutes ?? 0
-           },
-           clones: sessionData.clones ?? ""
-            };
-            inputTextChangeHandler(index, InnerIndex, updatedSessions, "input");
-          }}
-           />
-         </div>
-         <div className={classes.inputGroup}>
-           <label>Minutes:</label>
-           <input
-          type="number"
-          min={0}
-          max={59}
-          value={sessionData.duration?.minutes ?? 0}
-          onChange={(e) => {
-            const updatedSessions = el.input ? [...el.input] : [];
-            let minutes = parseInt(e.target.value, 10);
-            if (isNaN(minutes) || minutes < 0) minutes = 0;
-            if (minutes > 59) minutes = 59;
-            // Calculate new total minutes if this session's minutes are changed
-            const prevMinutes = (parseInt(sessionData.duration?.hours, 10) || 0) * 60 + (parseInt(sessionData.duration?.minutes, 10) || 0);
-            const newMinutes = (parseInt(sessionData.duration?.hours, 10) || 0) * 60 + minutes;
-            const otherTotalMinutes = currentTotalMinutes - prevMinutes;
-            if (otherTotalMinutes + newMinutes > maxTotalMinutes) {
-           failToast(`Total session time for all sessions cannot exceed 24 hours.`);
-           return;
-            }
-            updatedSessions[sessionIndex] = {
-           ...sessionData,
-           duration: {
-          hours: sessionData.duration?.hours ?? 0,
-          minutes: minutes
-           },
-           clones: sessionData.clones ?? ""
-            };
-            inputTextChangeHandler(index, InnerIndex, updatedSessions, "input");
-          }}
-           />
-         </div>
-          </div>
-
-          <NumberInput
-         lable={"Number of Clones:"}
-         description={"Set how many clones to use for this session."}
-         onChange={(val) => {
-           // Calculate new sum if this session's clones are changed
-           const prevClones = parseInt(sessionData.clones, 10) || 0;
-           const newClones = parseInt(val, 10) || 0;
-           const otherClonesSum = currentClonesSum - prevClones;
-           if (otherClonesSum + newClones > maxClones) {
-          failToast(`Total clones for all sessions cannot exceed ${maxClones}.`);
-          return;
-           }
-           const updatedSessions = el.input ? [...el.input] : [];
-           updatedSessions[sessionIndex] = {
-          ...sessionData,
-          clones: val,
-          duration: sessionData.duration ?? { hours: "", minutes: "" }
-           };
-           inputTextChangeHandler(index, InnerIndex, updatedSessions, "input");
-         }}
-         min={el.sessionStructure?.clones?.min || 1}
-         Value={sessionData.clones ?? ""}
-          />
-          </div>
-        </div>
+          0
         );
-         })}
-         </div>
-         {currentClonesSum > maxClones && (
-        <div className={classes.errorText}>
-          Total clones for all sessions cannot exceed {maxClones}.
+
+        return (
+          <div className={classes.dynamicListContainer}>
+        <div className={classes.dynamicListHeader}>
+          <label>{el.name}:</label>
+          <p className={classes.description}>{el.description}</p>
         </div>
-         )}
-         {currentTotalMinutes > maxTotalMinutes && (
-        <div className={classes.errorText}>
-          Total session time for all sessions cannot exceed 24 hours.
-        </div>
-         )}
+        <div className={classes.songsListContainer}>
+          {Array.from({ length: sessionCount }).map((_, sessionIndex) => {
+            const sessionData = el.input?.[sessionIndex] || { duration: { hours: "", minutes: "" }, clones: "" };
+            return (
+          <div key={sessionIndex} className={classes.songInputRow}>
+            <div className={classes.sessionRow}>
+              <div className={classes.sessionNumber}>
+            Session {sessionIndex + 1}
+              </div>
+              <div className={classes.durationFields}>
+            <div className={classes.inputGroup}>
+              <label>Hours:</label>
+              <input
+                type="number"
+                min={0}
+                max={24}
+                value={sessionData.duration?.hours ?? 0}
+                onChange={(e) => {
+              const updatedSessions = el.input ? [...el.input] : [];
+              let hours = parseInt(e.target.value, 10);
+              if (isNaN(hours) || hours < 0) hours = 0;
+              if (hours > 24) hours = 24;
+              // Calculate new total minutes if this session's hours are changed
+              const prevMinutes = (parseInt(sessionData.duration?.hours, 10) || 0) * 60 + (parseInt(sessionData.duration?.minutes, 10) || 0);
+              const newMinutes = (hours * 60) + (parseInt(sessionData.duration?.minutes, 10) || 0);
+              const otherTotalMinutes = currentTotalMinutes - prevMinutes;
+              if (otherTotalMinutes + newMinutes > maxTotalMinutes) {
+                failToast(`Total session time for all sessions cannot exceed 24 hours.`);
+                return;
+              }
+              updatedSessions[sessionIndex] = {
+                ...sessionData,
+                duration: {
+                  hours: hours,
+                  minutes: sessionData.duration?.minutes ?? 0
+                },
+                clones: sessionData.clones ?? ""
+              };
+              inputTextChangeHandler(index, InnerIndex, updatedSessions, "input");
+                }}
+              />
+            </div>
+            <div className={classes.inputGroup}>
+              <label>Minutes:</label>
+              <input
+                type="number"
+                min={0}
+                max={59}
+                value={sessionData.duration?.minutes ?? 0}
+                onChange={(e) => {
+              const updatedSessions = el.input ? [...el.input] : [];
+              let minutes = parseInt(e.target.value, 10);
+              if (isNaN(minutes) || minutes < 0) minutes = 0;
+              if (minutes > 59) minutes = 59;
+              // Calculate new total minutes if this session's minutes are changed
+              const prevMinutes = (parseInt(sessionData.duration?.hours, 10) || 0) * 60 + (parseInt(sessionData.duration?.minutes, 10) || 0);
+              const newMinutes = (parseInt(sessionData.duration?.hours, 10) || 0) * 60 + minutes;
+              const otherTotalMinutes = currentTotalMinutes - prevMinutes;
+              if (otherTotalMinutes + newMinutes > maxTotalMinutes) {
+                failToast(`Total session time for all sessions cannot exceed 24 hours.`);
+                return;
+              }
+              updatedSessions[sessionIndex] = {
+                ...sessionData,
+                duration: {
+                  hours: sessionData.duration?.hours ?? 0,
+                  minutes: minutes
+                },
+                clones: sessionData.clones ?? ""
+              };
+              inputTextChangeHandler(index, InnerIndex, updatedSessions, "input");
+                }}
+              />
+            </div>
+              </div>
+
+              <NumberInput
+            lable={"Number of Clones:"}
+            description={sessionIndex === 0 ? "Enter the number of automation sessions you want to schedule." : "Set how many clones to use for this session."}
+            onChange={(val) => {
+              // Calculate new sum if this session's clones are changed
+              const prevClones = parseInt(sessionData.clones, 10) || 0;
+              const newClones = parseInt(val, 10) || 0;
+              const otherClonesSum = currentClonesSum - prevClones;
+              if (otherClonesSum + newClones > maxClones) {
+                failToast(`Total clones for all sessions cannot exceed ${maxClones}.`);
+                return;
+              }
+              const updatedSessions = el.input ? [...el.input] : [];
+              updatedSessions[sessionIndex] = {
+                ...sessionData,
+                clones: val,
+                duration: sessionData.duration ?? { hours: "", minutes: "" }
+              };
+              inputTextChangeHandler(index, InnerIndex, updatedSessions, "input");
+            }}
+            min={el.sessionStructure?.clones?.min || 1}
+            Value={sessionData.clones ?? ""}
+              />
+            </div>
           </div>
-          );
-        case "text":
+            );
+          })}
+        </div>
+        {currentClonesSum > maxClones && (
+          <div className={classes.errorText}>
+            Total clones for all sessions cannot exceed {maxClones}.
+          </div>
+        )}
+        {currentTotalMinutes > maxTotalMinutes && (
+          <div className={classes.errorText}>
+            Total session time for all sessions cannot exceed 24 hours.
+          </div>
+        )}
+          </div>
+        );
+          case "text":
                return (
             <InputText
               label={el.name + ":"}
@@ -1189,7 +1264,8 @@ function Input(props) {
               value={el.input}
             />
           );
-      default:
+      
+          default:
         return <p>Unknown input type</p>;
     }
   }
