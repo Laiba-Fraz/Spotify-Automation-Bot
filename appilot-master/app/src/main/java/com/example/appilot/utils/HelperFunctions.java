@@ -1364,6 +1364,15 @@ public AccessibilityNodeInfo FindAndReturnNodeById(String Id, int attempts) {
             },1000+ random.nextInt(500));
 
     }
+//    public void LoginError(String returnMessage, String type) {
+//        handler.postDelayed(()->{
+//            goToHome();
+//            HomeActivity home = new HomeActivity();
+//            home.sendMessage(returnMessage,this.Task_id,this.job_id,type);
+//            handler.postDelayed(this::closeAndOpenMyApp, 1500 + random.nextInt(2000));
+//        },1000+ random.nextInt(500));
+//
+//    }
     public void sendUpdateMessage(String returnMessage, String type){
         HomeActivity home = new HomeActivity();
         home.sendMessage(returnMessage,this.Task_id,this.job_id, type);
